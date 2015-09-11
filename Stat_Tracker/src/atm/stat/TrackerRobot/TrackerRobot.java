@@ -11,10 +11,11 @@ public class TrackerRobot {
 		try 
 		{
 			//mac
-			 Workbook workbook = Workbook.getWorkbook(new File("/Users/alexmann/Developer/Fantasy_Stat_Tracking/inputFile_old.xls")); 	
+			 //Workbook workbook = Workbook.getWorkbook(new File("/Users/alexmann/Developer/Fantasy_Stat_Tracking/inputFile_old.xls")); 	
 			 
 			 //windows
-			 
+			 Workbook workbook = Workbook.getWorkbook(new File("C:\\Users\\Alex\\Documents\\GitHub\\Fantasy_Stat_Tracking\\inputFile_old.xls")); 	
+
 			 
 			 //getting number of teams
 		     Sheet sheet = workbook.getSheet(0); 	     
