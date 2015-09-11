@@ -11,7 +11,7 @@ public class TrackerRobot {
 		try 
 		{
 			 Workbook workbook = Workbook.getWorkbook(new File("/Users/alexmann/Developer/Tracker_Robot/inputFile_old.xls")); 	
-			 
+			 //ello mate
 			 //getting number of teams
 		     Sheet sheet = workbook.getSheet(0); 	     
 		     Cell a2 = sheet.getCell(0,1); 
