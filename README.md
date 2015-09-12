@@ -7,6 +7,7 @@ Finish the three modules
 1) Data collection
 2) Data massaging
 3) Data delivery
+4) review
 
 Stretch goal:
 - Accept team number through the command line
