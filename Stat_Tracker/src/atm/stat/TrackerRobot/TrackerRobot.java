@@ -40,10 +40,10 @@ public class TrackerRobot {
 		try 
 		{
 			//mac
-			 //Workbook workbook = Workbook.getWorkbook(new File("/Users/alexmann/Developer/Fantasy_Stat_Tracking/inputFile_old.xls")); 	
+			 Workbook workbook = Workbook.getWorkbook(new File("/Users/alexmann/Developer/Fantasy_Stat_Tracking/inputFile_old.xls")); 	
 			 
 			 //windows
-			 Workbook workbook = Workbook.getWorkbook(new File("C:\\Users\\Alex\\Documents\\GitHub\\Fantasy_Stat_Tracking\\inputFile_old.xls")); 	
+			 //Workbook workbook = Workbook.getWorkbook(new File("C:\\Users\\Alex\\Documents\\GitHub\\Fantasy_Stat_Tracking\\inputFile_old.xls")); 	
 
 		     Sheet sheet = workbook.getSheet(0); 	  
 		     
@@ -66,7 +66,7 @@ public class TrackerRobot {
 		     System.out.println("number of weeks: " + numWeeks);
 		     System.out.println("number of divisions: " + numDivisions);
 		     
-		        
+		     //LOGIC   
 		     String[][] data = extractData(sheet, teamCountInt, numWeeksInt);
 		     String[][] fixedData = massageData(data, teamCountInt, finalMassagedDataSize, numWeeksInt);
 		     
@@ -110,28 +110,34 @@ public class TrackerRobot {
 		String[][] finalData = new String[teamCountInt][finalMassagedDataSize]; //this will be the result of this function
 		String[][] tempData = new String[numWeeksInt][SingleTeamDataSize]; //this is the temp container that will hold each person's full historical stats, one person at a time
 		
-		tempData = extractOneTeam(data, numWeeksInt);
+		int increment = 0;
 		
-		//tempData now holds one team's lifetime data. build framework for massaging that data, and make sure that when you go back to pull more data you're pulling the next team (offset)
-		
+		for (int x = 0; x < teamCountInt; x++)
+		{
+			tempData = extractOneTeam(data, numWeeksInt, increment);
+			//MASSAGING LOGIC NEEDS TO BE INSIDE THIS FOR LOOP. EACH ITERATION OF THE LOOP CONTAINS ONE TEAM'S LIFETIME STATS. MASSAGE HERE, CONSOLIDATE FINAL NUMBERS INTO FINALDATA
+			increment++;
+		}
+				
 		return finalData;
 	}
 
-	private static String[][] extractOneTeam(String[][] data, int numWeeksInt) {
-		int offset = 0;
+	private static String[][] extractOneTeam(String[][] data, int numWeeksInt, int increment) {
+		int team = 0;
 		int row = 0;
 		int col = 0;
+		int offset = SingleTeamDataSize * increment;
 		String[][] container = new String[numWeeksInt][SingleTeamDataSize];
 		
 		for (int y = 0; y < numWeeksInt; y++)
 		{
 			for (int x = 0; x < SingleTeamDataSize; x++)
 			{
-				container[row][col] = data[offset][x];
+				container[row][col] = data[team][x + offset];
 				col++;
 			}
 			col = 0;
-			offset++;
+			team++;
 			row++;
 		}
 		return container;
