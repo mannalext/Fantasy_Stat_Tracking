@@ -6,6 +6,15 @@ import jxl.*;
 public class TrackerRobot {
 	
 	final static int SingleTeamDataSize = 8;
+	final static int TeamNameIndex = 0;
+	final static int TeamLocationIndex = 1;
+	final static int TeamPointsForIndex = 2;
+	final static int TeamPointsAgainstIndex = 3;
+	final static int TeamGameResultIndex = 4;
+	final static int TeamDivisionIndex = 5;
+	final static int TeamOpponentIndex = 6;
+	final static int TeamDivisionalGameIndex = 7;
+	
 	static int MassagedDataSizeBeforeTeamCountAdded = 30; //todo - likely to change
 	
 	//STATS STATS STATS 
@@ -68,7 +77,7 @@ public class TrackerRobot {
 		     
 		     //LOGIC   
 		     String[][] data = extractData(sheet, teamCountInt, numWeeksInt);
-		     String[][] fixedData = massageData(data, teamCountInt, finalMassagedDataSize, numWeeksInt);
+		     String[][] finalTeamSpecificData = massageData(data, teamCountInt, finalMassagedDataSize, numWeeksInt);
 		     
 		} catch (Exception e)
 		{
@@ -106,20 +115,31 @@ public class TrackerRobot {
 	}
 
 	private static String[][] massageData(String[][] data, int teamCountInt, int finalMassagedDataSize, int numWeeksInt) {
+		int currentHigh = 0;
+		int currentLow = 0;
+		int currentTotalFor = 0;
+		int currentTotalAgainst = 0;
+		int currentWins = 0;
+		int currentLosses = 0;
 		
-		String[][] finalData = new String[teamCountInt][finalMassagedDataSize]; //this will be the result of this function
-		String[][] tempData = new String[numWeeksInt][SingleTeamDataSize]; //this is the temp container that will hold each person's full historical stats, one person at a time
+		String[][] finalTeamSpecificData = new String[teamCountInt][finalMassagedDataSize]; //this will be the result of this function
+		String[][] tempData = new String[numWeeksInt][finalMassagedDataSize]; //this is the temp container that will hold each person's full historical stats, one person at a time
 		
 		int increment = 0;
+		int currentWeek = 0;
 		
 		for (int x = 0; x < teamCountInt; x++)
 		{
 			tempData = extractOneTeam(data, numWeeksInt, increment);
-			//MASSAGING LOGIC NEEDS TO BE INSIDE THIS FOR LOOP. EACH ITERATION OF THE LOOP CONTAINS ONE TEAM'S LIFETIME STATS. MASSAGE HERE, CONSOLIDATE FINAL NUMBERS INTO FINALDATA
+			for (int y = 0; y < numWeeksInt; y++) 
+			{
+				currentTotalFor+= Integer.parseInt(tempData[currentWeek][TeamPointsForIndex]); //PARSING FLOATS, NOT INTS
+			}
 			increment++;
+			currentWeek++;
 		}
 				
-		return finalData;
+		return finalTeamSpecificData;
 	}
 
 	private static String[][] extractOneTeam(String[][] data, int numWeeksInt, int increment) {

@@ -9,14 +9,20 @@ Finish the three modules
 3) Data delivery
 4) ctrl+f "todo"
 5) review code & this doc for leftovers
+6) data will be FLOATS, not INTS. change what you have to to make this work
 
 
 Stretch goal:
 - Dynamically find the input file in the local directory to make the program platform agnostic
 - Use jxl to write season-persistent stats back to the spreadsheet so that lifetime numbers are tracked
-	- currently, there's no mechanism to separate season totals from lifetime totals. every 13 weeks,
-	  totals need to be written to the spreadsheet and new season figures should be started
+    - write another app to consolidate lifetime stats by combining each season
 - Inter-divisional stats need to be implemented
+
+9/15/15
+DESIGN CHANGE PROPOSAL:
+the current app will only do one season's worth of stats. it will export these to an excel file AND the .txt
+a second app will be written which will read in seasonal stats and massage them into lifetime stats
+note: this change was made with an unclear head. reevaluate when the time comes
 
 --------------------
 --------------------
