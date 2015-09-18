@@ -115,12 +115,7 @@ public class TrackerRobot {
 	}
 
 	private static String[][] massageData(String[][] data, int teamCountInt, int finalMassagedDataSize, int numWeeksInt) {
-		int currentHigh = 0;
-		int currentLow = 0;
-		int currentTotalFor = 0;
-		int currentTotalAgainst = 0;
-		int currentWins = 0;
-		int currentLosses = 0;
+		
 		
 		String[][] finalTeamSpecificData = new String[teamCountInt][finalMassagedDataSize]; //this will be the result of this function
 		String[][] tempData = new String[numWeeksInt][finalMassagedDataSize]; //this is the temp container that will hold each person's full historical stats, one person at a time
@@ -133,14 +128,17 @@ public class TrackerRobot {
 			tempData = extractOneTeam(data, numWeeksInt, increment);
 			for (int y = 0; y < numWeeksInt; y++) 
 			{
-				currentTotalFor+= Integer.parseInt(tempData[currentWeek][TeamPointsForIndex]); //PARSING FLOATS, NOT INTS
+				massageTeamWeekIntoTeamStats(tempData, finalTeamSpecificData, numWeeksInt, currentWeek);
+				massageTeamWeekIntoLeagueStats(tempData, finalTeamSpecificData, numWeeksInt, currentWeek);
+				currentWeek++;
 			}
 			increment++;
-			currentWeek++;
+			
 		}
 				
 		return finalTeamSpecificData;
 	}
+	
 
 	private static String[][] extractOneTeam(String[][] data, int numWeeksInt, int increment) {
 		int team = 0;
@@ -162,4 +160,26 @@ public class TrackerRobot {
 		}
 		return container;
 	}
+	
+	
+	private static void massageTeamWeekIntoTeamStats(String[][] tempData, String[][] finalTeamSpecificData, int numWeeksInt, int currentWeek) {
+		int currentHigh = 0;
+		int currentLow = 0;
+		int currentTotalFor = 0;
+		int currentTotalAgainst = 0;
+		int currentWins = 0;
+		int currentLosses = 0;
+		
+		//currentTotalFor is being set to 0 each time this function starts. need to store inside finalTeamSpecificData each time and work with that value instead of a simple var here
+		currentTotalFor+= Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]); 
+		
+		//need to store stuff in finalteamSpecificData here
+	}
+	
+	
+	private static void massageTeamWeekIntoLeagueStats(String[][] tempData, String[][] finalTeamSpecificData, int numWeeksInt, int currentWeek) {
+		
+	}
+
+	
 }
