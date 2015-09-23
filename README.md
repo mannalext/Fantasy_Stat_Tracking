@@ -9,7 +9,6 @@ Finish the three modules
 3) Data delivery
 4) ctrl+f "todo"
 5) review code & this doc for leftovers
-6) data will be FLOATS, not INTS. change what you have to to make this work
 
 
 Stretch goal:
@@ -24,6 +23,28 @@ the current app will only do one season's worth of stats. it will export these t
 a second app will be written which will read in seasonal stats and massage them into lifetime stats
 note: this change was made with an unclear head. reevaluate when the time comes
 
+
+9/22/15
+- in order to track margins of victory / defeat, calculate them inside the main WIN or LOSS statements
+- tracking all single team stats in rows on the input file now, temporarily ofc
+- moving forward, track all single team stats and print them. that's V1.0
+- after V1.0, think about stats across seasons / for the full league
+- full league stats first
+- stats across seasons second
+
+
+
+
+
+
+
+
+
+
+
+
+
+EVERYTHING BELOW IS DEPRECATED
 --------------------
 --------------------
 
