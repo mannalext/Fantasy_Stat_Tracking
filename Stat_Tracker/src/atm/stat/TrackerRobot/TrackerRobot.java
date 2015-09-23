@@ -1,6 +1,14 @@
 package atm.stat.TrackerRobot;
 
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+
 import jxl.*; 
 
 public class TrackerRobot {
@@ -94,8 +102,8 @@ public class TrackerRobot {
 
 			//LOGIC   
 			String[][] data = extractData(sheet, teamCountInt, numWeeksInt);
-			float[][] finalTeamSpecificData = massageData(data, teamCountInt, finalMassagedDataSize, numWeeksInt);
-			printData(finalTeamSpecificData);
+			String[][] finalTeamSpecificDataAsStrings = massageData(data, teamCountInt, finalMassagedDataSize, numWeeksInt);
+			printData(finalTeamSpecificDataAsStrings);
 
 		} catch (Exception e)
 		{
@@ -141,7 +149,7 @@ public class TrackerRobot {
 		return data;
 	}
 
-	private static float[][] massageData(String[][] data, int teamCountInt, int finalMassagedDataSize, int numWeeksInt) {
+	private static String[][] massageData(String[][] data, int teamCountInt, int finalMassagedDataSize, int numWeeksInt) {
 
 		float[][] finalTeamSpecificData = new float[teamCountInt][finalMassagedDataSize]; //this will be the result of this function
 		String[][] tempData = new String[numWeeksInt][finalMassagedDataSize]; //this is the temp container that will hold each person's full historical stats, one person at a time
@@ -171,14 +179,36 @@ public class TrackerRobot {
 			e.printStackTrace();
 		}
 		
-		return finalTeamSpecificData;
+		String[][] finalTeamSpecificDataAsStrings = convertFloatArrayToString(finalTeamSpecificData, teamCountInt, finalMassagedDataSize);
+		
+		return finalTeamSpecificDataAsStrings;
 		
 	}
-	
-	private static void printData(float[][] finalTeamSpecificData) {
-		System.out.println("unfinished");
+
+	private static void printData(String[][] finalTeamSpecificDataAsStrings) throws FileNotFoundException, UnsupportedEncodingException {
+		
+		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Results.txt"), "utf-8"))) 
+		{
+			writer.write("Team 1 total points for: " + finalTeamSpecificDataAsStrings[0][TOTALPOINTSFOR]);
+			writer.newLine();
+			writer.write("Team 2 total points for: " + finalTeamSpecificDataAsStrings[1][TOTALPOINTSFOR]);
+			writer.newLine();
+			writer.write("Team 3 total points for: " + finalTeamSpecificDataAsStrings[2][TOTALPOINTSFOR]);
+			writer.newLine();
+			writer.write("Team 4 total points for: " + finalTeamSpecificDataAsStrings[3][TOTALPOINTSFOR]);
+
+		} catch (Exception e)
+		{
+			System.out.println("out of printData");
+			e.printStackTrace();
+		}
 	}
 
+	
+	
+	
+	//BEGIN HELPER VARIABLES
+	
 	private static String[][] extractOneTeam(String[][] data, int numWeeksInt, int increment) {
 		int team = 0;
 		int row = 0;
@@ -207,7 +237,6 @@ public class TrackerRobot {
 		
 		return container;
 	}
-
 
 	private static void massageTeamWeekIntoTeamStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentWeek, int currentTeam) {
 		
@@ -338,7 +367,6 @@ public class TrackerRobot {
 		
 	}
 
-
 	private static void massageTeamWeekIntoLeagueStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentWeek, int currentTeam) {
 
 		try 
@@ -368,6 +396,20 @@ public class TrackerRobot {
 		//currentLosses = 0;
 	}
 
+	private static String[][] convertFloatArrayToString(float[][] finalTeamSpecificData, int teamCountInt, int finalMassagedDataSize) {
+		String[][] finalTeamSpecificDataAsStrings = new String[teamCountInt][finalMassagedDataSize];
+		
+		for (int x = 0; x < teamCountInt; x++)
+		{
+			for (int y = 0; y < finalMassagedDataSize; y++)
+			{
+				finalTeamSpecificDataAsStrings[x][y] = Float.toString(finalTeamSpecificData[x][y]);
+			}
+		}
+		
+		return finalTeamSpecificDataAsStrings;
+	}
+	
 	final static int WINS = 0;
 	final static int LOSSES = 1;
 	final static int AVGPOINTSFOR = 2;
@@ -390,5 +432,6 @@ public class TrackerRobot {
 	final static int NONDIVRECORD = 19;
 	final static int TOTALMARGINVICTORY = 20;
 	final static int TOTALMARGINDEFEAT = 21;
+	final static int TEAMNAME = 22;
 
 }
