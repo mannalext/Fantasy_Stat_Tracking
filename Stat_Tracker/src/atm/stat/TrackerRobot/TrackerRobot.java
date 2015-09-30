@@ -73,8 +73,15 @@ public class TrackerRobot {
 	public static void main(String[] args) {
 		try 
 		{
+			
+			//getting the file from current directory? works on mac. need to test on windows
+			String userDir = System.getProperty("user.dir");
+			userDir = userDir.concat("/inputFile_old.xls");
+			System.out.println(userDir);
+			Workbook workbook = Workbook.getWorkbook(new File(userDir));
+
 			//mac
-			Workbook workbook = Workbook.getWorkbook(new File("/Users/alexmann/Developer/Fantasy_Stat_Tracking/inputFile_old.xls")); 	
+			//Workbook workbook = Workbook.getWorkbook(new File("/Users/alexmann/Developer/Fantasy_Stat_Tracking/inputFile_old.xls")); 	
 
 			//windows
 			//Workbook workbook = Workbook.getWorkbook(new File("C:\\Users\\Alex\\Documents\\GitHub\\Fantasy_Stat_Tracking\\inputFile_old.xls")); 	
@@ -99,6 +106,7 @@ public class TrackerRobot {
 			System.out.println("team count: " + teamCount);
 			System.out.println("number of weeks: " + numWeeks);
 			System.out.println("number of divisions: " + numDivisions);
+						
 
 			//LOGIC   
 			String[][] data = extractData(sheet, teamCountInt, numWeeksInt);
