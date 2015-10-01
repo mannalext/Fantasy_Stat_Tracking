@@ -9,6 +9,9 @@ Finish the three modules
 3) Data delivery
 4) ctrl+f "todo"
 5) review code & this doc for leftovers
+6) use the followed python repo on git to scrape espn instead of using data entry
+7) gui for help, options, etc
+8) implement functionality to handle people joining and leaving the league
 
 
 Stretch goal:
@@ -16,6 +19,7 @@ Stretch goal:
 - Use jxl to write season-persistent stats back to the spreadsheet so that lifetime numbers are tracked
     - write another app to consolidate lifetime stats by combining each season
 - Inter-divisional stats need to be implemented
+- implement a gui for help options, potentially output options, and practice lol
 
 9/15/15
 DESIGN CHANGE PROPOSAL:
@@ -31,6 +35,10 @@ note: this change was made with an unclear head. reevaluate when the time comes
 - after V1.0, think about stats across seasons / for the full league
 - full league stats first
 - stats across seasons second
+
+9/30/15
+useful link for exporting an executable
+http://www.wikihow.com/Create-an-Executable-File-from-Eclipse
 
 
 

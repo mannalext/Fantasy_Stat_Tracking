@@ -197,13 +197,26 @@ public class TrackerRobot {
 		
 		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Results.txt"), "utf-8"))) 
 		{
-			writer.write("Team 1 total points for: " + finalTeamSpecificDataAsStrings[0][TOTALPOINTSFOR]);
+			writer.write("Alex total points for: " + finalTeamSpecificDataAsStrings[0][TOTALPOINTSFOR]);
 			writer.newLine();
-			writer.write("Team 2 total points for: " + finalTeamSpecificDataAsStrings[1][TOTALPOINTSFOR]);
+			writer.write("Rahul total points for: " + finalTeamSpecificDataAsStrings[1][TOTALPOINTSFOR]);
 			writer.newLine();
-			writer.write("Team 3 total points for: " + finalTeamSpecificDataAsStrings[2][TOTALPOINTSFOR]);
+			writer.write("David total points for: " + finalTeamSpecificDataAsStrings[2][TOTALPOINTSFOR]);
 			writer.newLine();
-			writer.write("Team 4 total points for: " + finalTeamSpecificDataAsStrings[3][TOTALPOINTSFOR]);
+			writer.write("Hannah total points for: " + finalTeamSpecificDataAsStrings[3][TOTALPOINTSFOR]);
+			/*writer.newLine();
+			writer.write("Conor total points for: " + finalTeamSpecificDataAsStrings[4][TOTALPOINTSFOR]);
+			writer.newLine();
+			writer.write("Bryan total points for: " + finalTeamSpecificDataAsStrings[5][TOTALPOINTSFOR]);
+			writer.newLine();
+			writer.write("Greg total points for: " + finalTeamSpecificDataAsStrings[6][TOTALPOINTSFOR]);
+			writer.newLine();
+			writer.write("Vandan total points for: " + finalTeamSpecificDataAsStrings[7][TOTALPOINTSFOR]);
+			writer.newLine();
+			writer.write("Matt total points for: " + finalTeamSpecificDataAsStrings[8][TOTALPOINTSFOR]);
+			writer.newLine();
+			writer.write("Adam total points for: " + finalTeamSpecificDataAsStrings[9][TOTALPOINTSFOR]);*/
+			
 
 		} catch (Exception e)
 		{
