@@ -12,6 +12,9 @@ Finish the three modules
 6) use the followed python repo on git to scrape espn instead of using data entry
 7) gui for help, options, etc
 8) implement functionality to handle people joining and leaving the league
+9) implement tracking in the case of Ties
+10) use a StringBuilder to to .txt output in printData
+11) "total margin" as a stat. totalMarginVictory - totalMarginDefeat
 
 
 Stretch goal:
