@@ -558,6 +558,8 @@ public class TrackerRobot {
 		currentLosses = 0;
 		currentTotalPointsHome = 0;
 		currentTotalPointsAway = 0;
+		currentHomeGames = 0;
+		currentAwayGames = 0;
 	}
 
 	private static String[][] convertFloatArrayToString(float[][] finalTeamSpecificData, int teamCountInt, int finalMassagedDataSize) {

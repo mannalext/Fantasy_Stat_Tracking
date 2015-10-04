@@ -28,8 +28,8 @@ Average away points: 110.0
 Rahul
 Wins: 2.0
 Losses: 1.0
-Home winning pct: 0.33333334
-Away winning pct: 0.33333334
+Home winning pct: 1.0
+Away winning pct: 0.5
 Divisional record: 1.0
 Non divisional record: 0.0
 Total points for: 327.0
@@ -48,14 +48,14 @@ Highest margin of victory: 24.099998
 Highest margin of defeat: 21.799995
 Lowest margin of victory: 24.099998
 Lowest margin of defeat: 21.799995
-Average home points: 47.233334
-Average away points: 61.766666
+Average home points: 141.7
+Average away points: 92.65
 
 
 David
 Wins: 2.0
 Losses: 1.0
-Home winning pct: 0.4
+Home winning pct: 1.0
 Away winning pct: 0.0
 Divisional record: 0.5
 Non divisional record: 1.0
@@ -75,15 +75,15 @@ Highest margin of victory: 26.600006
 Highest margin of defeat: 12.800003
 Lowest margin of victory: 26.600006
 Lowest margin of defeat: 12.800003
-Average home points: 49.1
-Average away points: 23.925
+Average home points: 122.75
+Average away points: 95.7
 
 
 Hannah
 Wins: 2.0
 Losses: 1.0
-Home winning pct: 0.14285715
-Away winning pct: 0.2
+Home winning pct: 0.5
+Away winning pct: 1.0
 Divisional record: 0.6666667
 Non divisional record: NaN
 Total points for: 366.2
@@ -102,15 +102,15 @@ Highest margin of victory: 36.399994
 Highest margin of defeat: 9.0
 Lowest margin of victory: 36.399994
 Lowest margin of defeat: 9.0
-Average home points: 32.471428
-Average away points: 27.779999
+Average home points: 113.65
+Average away points: 138.9
 
 
 Conor
 Wins: 2.0
 Losses: 1.0
-Home winning pct: 0.125
-Away winning pct: 0.14285715
+Home winning pct: 1.0
+Away winning pct: 0.5
 Divisional record: 0.6666667
 Non divisional record: NaN
 Total points for: 318.5
@@ -129,14 +129,14 @@ Highest margin of victory: 11.599998
 Highest margin of defeat: 49.300003
 Lowest margin of victory: 11.599998
 Lowest margin of defeat: 49.300003
-Average home points: 14.7
-Average away points: 28.699999
+Average home points: 117.6
+Average away points: 100.45
 
 
 Bryan
 Wins: 1.0
 Losses: 2.0
-Home winning pct: 0.1
+Home winning pct: 0.5
 Away winning pct: 0.0
 Divisional record: 0.0
 Non divisional record: 1.0
@@ -156,15 +156,15 @@ Highest margin of victory: 8.599998
 Highest margin of defeat: 36.399994
 Lowest margin of victory: 8.599998
 Lowest margin of defeat: 11.599998
-Average home points: 21.35
-Average away points: 13.25
+Average home points: 106.75
+Average away points: 106.0
 
 
 Greg
 Wins: 2.0
 Losses: 1.0
-Home winning pct: 0.083333336
-Away winning pct: 0.11111111
+Home winning pct: 0.5
+Away winning pct: 1.0
 Divisional record: 0.6666667
 Non divisional record: NaN
 Total points for: 313.5
@@ -183,15 +183,15 @@ Highest margin of victory: 23.099998
 Highest margin of defeat: 17.699997
 Lowest margin of victory: 23.099998
 Lowest margin of defeat: 17.699997
-Average home points: 16.716667
-Average away points: 12.544445
+Average home points: 100.3
+Average away points: 112.9
 
 
 Vandan
 Wins: 1.0
 Losses: 2.0
 Home winning pct: 0.0
-Away winning pct: 0.09090909
+Away winning pct: 0.5
 Divisional record: 0.5
 Non divisional record: 0.0
 Total points for: 341.5
@@ -210,15 +210,15 @@ Highest margin of victory: 62.0
 Highest margin of defeat: 10.0
 Lowest margin of victory: 62.0
 Lowest margin of defeat: 8.599998
-Average home points: 7.915385
-Average away points: 21.69091
+Average home points: 102.9
+Average away points: 119.3
 
 
 Matt
 Wins: 1.0
 Losses: 2.0
 Home winning pct: 0.0
-Away winning pct: 0.07692308
+Away winning pct: 0.5
 Divisional record: 0.5
 Non divisional record: 0.0
 Total points for: 302.8
@@ -237,8 +237,8 @@ Highest margin of victory: 17.699997
 Highest margin of defeat: 26.600006
 Lowest margin of victory: 17.699997
 Lowest margin of defeat: 20.900002
-Average home points: 4.785714
-Average away points: 18.13846
+Average home points: 67.0
+Average away points: 117.899994
 
 
 Adam
@@ -264,7 +264,7 @@ Highest margin of victory: 0.0
 Highest margin of defeat: 62.0
 Lowest margin of victory: 0.0
 Lowest margin of defeat: 23.099998
-Average home points: 4.9466662
-Average away points: 12.38
+Average home points: 74.2
+Average away points: 92.85
 
 
