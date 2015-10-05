@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.PriorityQueue;
 
 import jxl.*; 
 
@@ -49,7 +51,7 @@ public class TrackerRobot {
 			teamNames = getTeamNames(sheet);
 						
 			ListOfGameScores = new String[2][numWeeksInt*teamCountInt];
-			float[][] leagueWideStats = new float[2][LEAGUEWIDESTATCOUNT];
+			String[][] leagueWideStats = new String[2][LEAGUEWIDESTATCOUNT];
 			//LOGIC   
 			String[][] data = extractData(sheet, teamCountInt, numWeeksInt);
 			String[][] finalTeamSpecificDataAsStrings = massageData(data, teamCountInt, finalMassagedDataSize, numWeeksInt, leagueWideStats);
@@ -99,7 +101,7 @@ public class TrackerRobot {
 		return data;
 	}
 
-	private static String[][] massageData(String[][] data, int teamCountInt, int finalMassagedDataSize, int numWeeksInt, float[][] leagueWideStats) {
+	private static String[][] massageData(String[][] data, int teamCountInt, int finalMassagedDataSize, int numWeeksInt, String[][] leagueWideStats) {
 
 		float[][] finalTeamSpecificData = new float[teamCountInt][finalMassagedDataSize]; //this will be the result of this function
 		String[][] tempData = new String[numWeeksInt][finalMassagedDataSize]; //this is the temp container that will hold each person's full historical stats, one person at a time
@@ -120,11 +122,12 @@ public class TrackerRobot {
 					currentWeek++;
 				}
 				
-				massageTeamWeekIntoLeagueStats(tempData, finalTeamSpecificData, numWeeksInt, currentTeam, leagueWideStats);
+				assembleLeagueStats(tempData, finalTeamSpecificData, numWeeksInt, currentTeam, leagueWideStats);
 				currentTeam++;
 				currentWeek = 0;
 				clearTemporaryVariables();
 			}
+			highestAndLowestScores(leagueWideStats);
 	
 		} catch (Exception e)
 		{
@@ -138,7 +141,7 @@ public class TrackerRobot {
 		
 	}
 
-	private static void printData(String[][] finalTeamSpecificDataAsStrings, String[] teamNames, float[][] leagueWideStats) throws FileNotFoundException, UnsupportedEncodingException {
+	private static void printData(String[][] finalTeamSpecificDataAsStrings, String[] teamNames, String[][] leagueWideStats) throws FileNotFoundException, UnsupportedEncodingException {
 		
 		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Results.txt"), "utf-8"))) 
 		{
@@ -199,9 +202,35 @@ public class TrackerRobot {
 				writer.write("Average away points: " + finalTeamSpecificDataAsStrings[teamIndex][AVGPOINTSAWAY]);
 				writer.newLine();
 				writer.newLine();
-				writer.newLine();
 				teamIndex++;
 			}
+			writer.write("BEGINNING LEAGUE-WIDE STATS");
+			writer.newLine();
+			writer.write("Top 5 Single Week Scores");
+			writer.newLine();
+			writer.write("1. " + leagueWideStats[0][HIGHESTSCORE] + "\t(" + leagueWideStats[1][HIGHESTSCORE] + ")");
+			writer.newLine();
+			writer.write("2. " + leagueWideStats[0][SECONDHIGHESTSCORE] + "\t(" + leagueWideStats[1][SECONDHIGHESTSCORE] + ")");
+			writer.newLine();
+			writer.write("3. " + leagueWideStats[0][THIRDHIGHESTSCORE] + "\t(" + leagueWideStats[1][THIRDHIGHESTSCORE] + ")");
+			writer.newLine();
+			writer.write("4. " + leagueWideStats[0][FOURTHHIGHESTSCORE] + "\t(" + leagueWideStats[1][FOURTHHIGHESTSCORE] + ")");
+			writer.newLine();
+			writer.write("5. " + leagueWideStats[0][FIFTHHIGHESTSCORE] + "\t(" + leagueWideStats[1][FIFTHHIGHESTSCORE] + ")");
+			writer.newLine();
+			writer.newLine();
+			writer.write("Bottom 5 Single Week Scores");
+			writer.newLine();
+			writer.write("1. " + leagueWideStats[0][LOWESTSCORE] + "\t(" + leagueWideStats[1][LOWESTSCORE] + ")");
+			writer.newLine();
+			writer.write("2. " + leagueWideStats[0][SECONDLOWESTSCORE] + "\t(" + leagueWideStats[1][SECONDLOWESTSCORE] + ")");
+			writer.newLine();
+			writer.write("3. " + leagueWideStats[0][THIRDLOWESTSCORE] + "\t(" + leagueWideStats[1][THIRDLOWESTSCORE] + ")");
+			writer.newLine();
+			writer.write("4. " + leagueWideStats[0][FOURTHLOWESTSCORE] + "\t(" + leagueWideStats[1][FOURTHLOWESTSCORE] + ")");
+			writer.newLine();
+			writer.write("5. " + leagueWideStats[0][FIFTHLOWESTSCORE] + "\t(" + leagueWideStats[1][FIFTHLOWESTSCORE] + ")");
+			writer.newLine();
 			
 		} catch (Exception e)
 		{
@@ -472,16 +501,139 @@ public class TrackerRobot {
 		
 	}
 
-	private static void massageTeamWeekIntoLeagueStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentTeam, float[][] leagueWideStats) {
+	private static void assembleLeagueStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentTeam, String[][] leagueWideStats) {
 
-		int weekIndex = 0;
+		//every time this function gets called, tempData will contain the entire data of one team
+		
+	}
+	
+	private static void highestAndLowestScores(String[][] leagueWideStats) {
 		try 
 		{
-			int x = 99;
+			float high1 = 0;
+			float high2 = 0;
+			float high3 = 0;
+			float high4 = 0;
+			float high5 = 0;
+			float low1 = 0;
+			float low2 = 0;
+			float low3 = 0;
+			float low4 = 0;
+			float low5 = 0;
+			
+			high1 = Float.parseFloat(ListOfGameScores[0][0]);
+			low1 = Float.parseFloat(ListOfGameScores[0][0]);
+			
+			for (int x = 1; x < ListOfGameScores[0].length; x++)
+			{
+				//5 highest scores
+				if (Float.parseFloat(ListOfGameScores[0][x]) > high1)
+				{
+					high5 = high4;
+					high4 = high3;
+					high3 = high2;
+					high2 = high1;
+					high1 = Float.parseFloat(ListOfGameScores[0][x]);
+				} else if (Float.parseFloat(ListOfGameScores[0][x]) > high2)
+				{
+					high5 = high4;
+					high4 = high3;
+					high3 = high2;
+					high2 = Float.parseFloat(ListOfGameScores[0][x]);
+				} else if (Float.parseFloat(ListOfGameScores[0][x]) > high3)
+				{
+					high5 = high4;
+					high4 = high3;
+					high3 = Float.parseFloat(ListOfGameScores[0][x]);
+				} else if (Float.parseFloat(ListOfGameScores[0][x]) > high4)
+				{
+					high5 = high4;
+					high4 = Float.parseFloat(ListOfGameScores[0][x]);
+				} else if (Float.parseFloat(ListOfGameScores[0][x]) > high5)
+				{
+					high5 = Float.parseFloat(ListOfGameScores[0][x]);
+				}
+				
+				//5 lowest scores
+				if (Float.parseFloat(ListOfGameScores[0][x]) < low1)
+				{
+					low5 = low4;
+					low4 = low3;
+					low3 = low2;
+					low2 = low1;
+					low1 = Float.parseFloat(ListOfGameScores[0][x]);
+				} else if (Float.parseFloat(ListOfGameScores[0][x]) < low2)
+				{
+					low5 = low4;
+					low4 = low3;
+					low3 = low2;
+					low2 = Float.parseFloat(ListOfGameScores[0][x]);
+				} else if (Float.parseFloat(ListOfGameScores[0][x]) < low3)
+				{
+					low5 = low4;
+					low4 = low3;
+					low3 = Float.parseFloat(ListOfGameScores[0][x]);
+				} else if (Float.parseFloat(ListOfGameScores[0][x]) < low4)
+				{
+					low5 = low4;
+					low4 = Float.parseFloat(ListOfGameScores[0][x]);
+				} else if (Float.parseFloat(ListOfGameScores[0][x]) < low5)
+				{
+					low5 = Float.parseFloat(ListOfGameScores[0][x]);
+				}
+			}
+			
+			for (int y = 0; y < ListOfGameScores[0].length; y++)
+			{
+				String string = ListOfGameScores[0][y];
+				if (String.valueOf(high1).equals(string)) 
+				{
+					leagueWideStats[0][HIGHESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][HIGHESTSCORE] = ListOfGameScores[1][y];
+				} else if (high2 == Float.parseFloat(string))
+				{
+					leagueWideStats[0][SECONDHIGHESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][SECONDHIGHESTSCORE] = ListOfGameScores[1][y];
+				} else if (high3 == Float.parseFloat(string))
+				{
+					leagueWideStats[0][THIRDHIGHESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][THIRDHIGHESTSCORE] = ListOfGameScores[1][y];
+				} else if (high4 == Float.parseFloat(string))
+				{
+					leagueWideStats[0][FOURTHHIGHESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][FOURTHHIGHESTSCORE] = ListOfGameScores[1][y];
+				} else if (high5 == Float.parseFloat(string))
+				{
+					leagueWideStats[0][FIFTHHIGHESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][FIFTHHIGHESTSCORE] = ListOfGameScores[1][y];
+				} else if (low1 == Float.parseFloat(string))
+				{
+					leagueWideStats[0][LOWESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][LOWESTSCORE] = ListOfGameScores[1][y];
+				} else if (low2 == Float.parseFloat(string))
+				{
+					leagueWideStats[0][SECONDLOWESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][SECONDLOWESTSCORE] = ListOfGameScores[1][y];
+				} else if (low3 == Float.parseFloat(string))
+				{
+					leagueWideStats[0][THIRDLOWESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][THIRDLOWESTSCORE] = ListOfGameScores[1][y];
+				} else if (low4 == Float.parseFloat(string))
+				{
+					leagueWideStats[0][FOURTHLOWESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][FOURTHLOWESTSCORE] = ListOfGameScores[1][y];
+				} else if (low5 == Float.parseFloat(string))
+				{
+					leagueWideStats[0][FIFTHLOWESTSCORE] = ListOfGameScores[0][y];
+					leagueWideStats[1][FIFTHLOWESTSCORE] = ListOfGameScores[1][y];
+				}
+			}
+		
+			System.out.println("debug");
 			
 		} catch (Exception e)
 		{
-			System.out.println("out of massageTeamWeekIntoLeagueStats");
+			System.out.println("out of highestAndLowestScores");
 			e.printStackTrace();
 		}
 	}
@@ -528,7 +680,7 @@ public class TrackerRobot {
 	}
 	
 	
-	//individual team statistic array indices
+	//individual team statistic array indices (for finalTeamSpecificStats arrays)
 	final static int WINS = 0;
 	final static int LOSSES = 1;
 	final static int AVGPOINTSFOR = 2;
@@ -555,6 +707,19 @@ public class TrackerRobot {
 	final static int LOWMARGINDEFEAT = 23;
 	final static int POINTDIFFERENTIAL = 24;
 	final static int TEAMNAME = 31;
+	
+	//league wide statistic array indices (for leagueWideStats arrays)
+	final static int HIGHESTSCORE = 0;
+	final static int SECONDHIGHESTSCORE = 1;
+	final static int THIRDHIGHESTSCORE = 2;
+	final static int FOURTHHIGHESTSCORE = 3;
+	final static int FIFTHHIGHESTSCORE = 4;
+	final static int LOWESTSCORE = 5;
+	final static int SECONDLOWESTSCORE = 6;
+	final static int THIRDLOWESTSCORE = 7;
+	final static int FOURTHLOWESTSCORE = 8;
+	final static int FIFTHLOWESTSCORE = 9;
+	
 	
 	//individual team statistic EXTRACTION array indices
 	final static int SingleTeamDataSize = 8;

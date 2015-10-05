@@ -25,7 +25,6 @@ Total point differential: 70.9
 Average home points: 120.8
 Average away points: 110.0
 
-
 Rahul
 Wins: 2.0
 Losses: 1.0
@@ -52,7 +51,6 @@ Lowest margin of defeat: 21.799995
 Total point differential: 23.200005
 Average home points: 141.7
 Average away points: 92.65
-
 
 David
 Wins: 2.0
@@ -81,7 +79,6 @@ Total point differential: 14.0
 Average home points: 122.75
 Average away points: 95.7
 
-
 Hannah
 Wins: 2.0
 Losses: 1.0
@@ -108,7 +105,6 @@ Lowest margin of defeat: 9.0
 Total point differential: 40.199997
 Average home points: 113.65
 Average away points: 138.9
-
 
 Conor
 Wins: 2.0
@@ -137,7 +133,6 @@ Total point differential: -28.700005
 Average home points: 117.6
 Average away points: 100.45
 
-
 Bryan
 Wins: 1.0
 Losses: 2.0
@@ -164,7 +159,6 @@ Lowest margin of defeat: 11.599998
 Total point differential: -39.399994
 Average home points: 106.75
 Average away points: 106.0
-
 
 Greg
 Wins: 2.0
@@ -193,7 +187,6 @@ Total point differential: 15.400002
 Average home points: 100.3
 Average away points: 112.9
 
-
 Vandan
 Wins: 1.0
 Losses: 2.0
@@ -220,7 +213,6 @@ Lowest margin of defeat: 8.599998
 Total point differential: 43.4
 Average home points: 102.9
 Average away points: 119.3
-
 
 Matt
 Wins: 1.0
@@ -249,7 +241,6 @@ Total point differential: -29.80001
 Average home points: 67.0
 Average away points: 117.899994
 
-
 Adam
 Wins: 0.0
 Losses: 3.0
@@ -277,4 +268,17 @@ Total point differential: -109.2
 Average home points: 74.2
 Average away points: 92.85
 
+BEGINNING LEAGUE-WIDE STATS
+Top 5 Single Week Scores
+1. 141.7	(Rahul)
+2. 138.9	(Hannah)
+3. 136.2	(Vandan)
+4. 135.3	(David)
+5. 127.8	(Conor)
 
+Bottom 5 Single Week Scores
+1. 67	(Matt)
+2. 68.1	(Adam)
+3. 73.1	(Conor)
+4. 74.2	(Adam)
+5. 87.9	(Rahul)

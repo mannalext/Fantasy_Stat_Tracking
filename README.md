@@ -4,6 +4,7 @@ This project is currently under active development.
 
 TODO:
 - League-Wide stat tracking
+- included in league-wide, but deserves a callout: matchup tracking
 - Season-over-season stats, "lifetime of the league" tracking
 - Tie tracking
 - Determine a "pretty" way to output the data to .txt
@@ -21,6 +22,10 @@ STRETCH GOALS:
 
 
 --Thoughts as I build it--
+
+10/5/15 second commit
+implemented top and bottom 5 league scoring, along with rudimentary printing. thinking that next will be all the regular league-wide stats that are easier to track. list these in the input file
+
 10/5/15
 beginning the groundwork for league-wide stats. reorganized this doc. putting focus on assembling league-wide stats right now, then moving to pretty printing
 
