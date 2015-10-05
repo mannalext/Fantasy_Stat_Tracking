@@ -2,34 +2,31 @@
 
 This project is currently under active development. 
 
-Todo:
-Finish the three modules 
-1) Data collection
-2) Data massaging
-3) Data delivery
-4) ctrl+f "todo"
-5) review code & this doc for leftovers
-6) use the followed python repo on git to scrape espn instead of using data entry
-7) gui for help, options, etc
-8) implement functionality to handle people joining and leaving the league
-9) implement tracking in the case of Ties
-10) use a StringBuilder to to .txt output in printData
-11) "total margin" as a stat. totalMarginVictory - totalMarginDefeat
+TODO:
+- League-Wide stat tracking
+- Season-over-season stats, "lifetime of the league" tracking
+- Tie tracking
+- Determine a "pretty" way to output the data to .txt
+	- Then, use a StringBuilder to make that string and print it
+- Inter-divisional stats need to be implemented (East / West win pct against each other)
 
 
-Stretch goal:
-- Dynamically find the input file in the local directory to make the program platform agnostic
-- Use jxl to write season-persistent stats back to the spreadsheet so that lifetime numbers are tracked
-    - write another app to consolidate lifetime stats by combining each season
-- Inter-divisional stats need to be implemented
-- implement a gui for help options, potentially output options, and practice lol
+STRETCH GOALS:
+- refactor such that there are SIGNIFICANTLY less static variables
+- write data to a spreadsheet so Hannah can make excel infographics
+- use the 'fantasy' repo on git to scrape ESPN for numbers instead of using data entry
+- implement a gui for help options, potentially output options
+- handle when people join/leave the league
 
-9/15/15
-DESIGN CHANGE PROPOSAL:
-the current app will only do one season's worth of stats. it will export these to an excel file AND the .txt
-a second app will be written which will read in seasonal stats and massage them into lifetime stats
-note: this change was made with an unclear head. reevaluate when the time comes
 
+
+--Thoughts as I build it--
+10/5/15
+beginning the groundwork for league-wide stats. reorganized this doc. putting focus on assembling league-wide stats right now, then moving to pretty printing
+
+9/30/15
+useful link for exporting an executable
+http://www.wikihow.com/Create-an-Executable-File-from-Eclipse
 
 9/22/15
 - in order to track margins of victory / defeat, calculate them inside the main WIN or LOSS statements
@@ -39,9 +36,18 @@ note: this change was made with an unclear head. reevaluate when the time comes
 - full league stats first
 - stats across seasons second
 
-9/30/15
-useful link for exporting an executable
-http://www.wikihow.com/Create-an-Executable-File-from-Eclipse
+9/15/15
+DESIGN CHANGE PROPOSAL:
+the current app will only do one season's worth of stats. it will export these to an excel file AND the .txt
+a second app will be written which will read in seasonal stats and massage them into lifetime stats
+note: this change was made with an unclear head. reevaluate when the time comes
+
+
+
+
+
+
+
 
 
 

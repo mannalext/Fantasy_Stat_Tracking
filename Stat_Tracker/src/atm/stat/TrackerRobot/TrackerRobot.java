@@ -13,73 +13,6 @@ import jxl.*;
 
 public class TrackerRobot {
 
-	final static int SingleTeamDataSize = 8;
-	final static int TeamNameIndex = 0;
-	final static int TeamLocationIndex = 1;
-	final static int TeamPointsForIndex = 2;
-	final static int TeamPointsAgainstIndex = 3;
-	final static int TeamDivisionIndex = 4;
-	final static int TeamGameResultIndex = 5;
-	final static int TeamOpponentIndex = 6;
-	final static int TeamDivisionalGameIndex = 7;
-
-	static int MassagedDataSizeBeforeTeamCountAdded = 30; //todo - likely to change
-
-	//STATS STATS STATS 
-	//todo - inter-divisional stats not currently implemented
-	static int HomeTeamSeasonWins = 0;
-	static int AwayTeamSeasonWins = 0;
-	static int[] HighestSeasonScores = new int[10];
-	static int[] LowestSeasonScores = new int[10];
-	static int NumberOfDivisions;
-	static int SeasonTotalPointsScored = 0;
-	static int HomeTeamTotalPointsScoredSeason = 0;
-	static int AwayTeamTotalPointsScoredSeason = 0;
-	static int AverageMarginOfVictorySeason = 0;
-	static int HighestMarginOfVictorySeason = 0;
-	static int LowestMarginOfVictorySeason = 0;
-
-	//NOTE: the implementation of these lifetime stats will change upon completion of a stretch goal
-	static int HomeTeamLifetimeWins = 0;
-	static int AwayTeamLifetimeWins = 0;
-	static int[] HighestLifetimeScores = new int[10];
-	static int[] LowestLifetimeScores = new int[10];
-	static int LeagueTotalPointsScored = 0;
-	static int HomeTeamTotalPointsScoredLifetime = 0;
-	static int AwayTeamTotalPointsScoredLifetime = 0;
-	static int AverageMarginOfVictoryLifetime = 0;
-	static int HighestMarginOfVictoryLifetime = 0;
-	static int LowestMarginOfVictoryLifetime = 0;
-	//STATS STATS STATS
-	
-	//individual team stats, these are temporary and always changing
-	//static float currentHigh = 0;
-	//static float currentLow = 0;
-	static float currentTotalFor = 0;
-	static float currentTotalAgainst = 0;
-	static float currentWins = 0;
-	static float currentLosses = 0;
-	static float currentHomeWins = 0;
-	static float currentHomeGames = 0;
-	static float currentAwayWins = 0;
-	static float currentAwayGames = 0;
-	static float currentHomeTotal = 0;
-	static float currentAwayTotal = 0;
-	static float currentDivisionalWins = 0;
-	static float currentDivisionalGames = 0;
-	static float currentNonDivisionalWins = 0;
-	static float currentNonDivisionalGames = 0;
-	static float currentHighMarginVictory = 0;
-	static float currentHighmarginDefeat = 0;
-	static float currentLowMarginVictory = 0;
-	static float currentLowMarginDefeat = 0;
-	static float currentAverageMarginVictory = 0;
-	static float currentAverageMarginDefeat = 0;
-	static float currentTotalMarginVictory = 0;
-	static float currentTotalMarginDefeat = 0;
-	static float currentTotalPointsHome = 0;
-	static float currentTotalPointsAway = 0;
-
 	public static void main(String[] args) {
 		try 
 		{
@@ -111,15 +44,16 @@ public class TrackerRobot {
 			Cell a3 = sheet.getCell(0, 3);
 			String numDivisions = a3.getContents();
 			int numDivisionsInt = Integer.parseInt(numDivisions);
-			NumberOfDivisions = numDivisionsInt;
 			
 			String[] teamNames = new String[10];
 			teamNames = getTeamNames(sheet);
 						
+			ListOfGameScores = new String[2][numWeeksInt*teamCountInt];
+			float[][] leagueWideStats = new float[2][LEAGUEWIDESTATCOUNT];
 			//LOGIC   
 			String[][] data = extractData(sheet, teamCountInt, numWeeksInt);
-			String[][] finalTeamSpecificDataAsStrings = massageData(data, teamCountInt, finalMassagedDataSize, numWeeksInt);
-			printData(finalTeamSpecificDataAsStrings, teamNames);
+			String[][] finalTeamSpecificDataAsStrings = massageData(data, teamCountInt, finalMassagedDataSize, numWeeksInt, leagueWideStats);
+			printData(finalTeamSpecificDataAsStrings, teamNames, leagueWideStats);
 
 		} catch (Exception e)
 		{
@@ -165,26 +99,29 @@ public class TrackerRobot {
 		return data;
 	}
 
-	private static String[][] massageData(String[][] data, int teamCountInt, int finalMassagedDataSize, int numWeeksInt) {
+	private static String[][] massageData(String[][] data, int teamCountInt, int finalMassagedDataSize, int numWeeksInt, float[][] leagueWideStats) {
 
 		float[][] finalTeamSpecificData = new float[teamCountInt][finalMassagedDataSize]; //this will be the result of this function
 		String[][] tempData = new String[numWeeksInt][finalMassagedDataSize]; //this is the temp container that will hold each person's full historical stats, one person at a time
 
-		int increment = 0;
+		int currentTeam = 0;
 		int currentWeek = 0;
+		int gameIndex = 0;
 
 		try 
 		{
 			for (int x = 0; x < teamCountInt; x++)
 			{
-				tempData = extractOneTeam(data, numWeeksInt, increment);
+				tempData = extractOneTeam(data, numWeeksInt, currentTeam);
 				for (int y = 0; y < numWeeksInt; y++) 
 				{
-					massageTeamWeekIntoTeamStats(tempData, finalTeamSpecificData, numWeeksInt, currentWeek, increment); //passing increment as currentTeam index
-					massageTeamWeekIntoLeagueStats(tempData, finalTeamSpecificData, numWeeksInt, currentWeek, increment);
+					massageTeamWeekIntoTeamStats(tempData, finalTeamSpecificData, numWeeksInt, currentWeek, currentTeam, gameIndex); //passing increment as currentTeam index
+					gameIndex++;
 					currentWeek++;
 				}
-				increment++;
+				
+				massageTeamWeekIntoLeagueStats(tempData, finalTeamSpecificData, numWeeksInt, currentTeam, leagueWideStats);
+				currentTeam++;
 				currentWeek = 0;
 				clearTemporaryVariables();
 			}
@@ -201,7 +138,7 @@ public class TrackerRobot {
 		
 	}
 
-	private static void printData(String[][] finalTeamSpecificDataAsStrings, String[] teamNames) throws FileNotFoundException, UnsupportedEncodingException {
+	private static void printData(String[][] finalTeamSpecificDataAsStrings, String[] teamNames, float[][] leagueWideStats) throws FileNotFoundException, UnsupportedEncodingException {
 		
 		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Results.txt"), "utf-8"))) 
 		{
@@ -251,9 +188,11 @@ public class TrackerRobot {
 				writer.newLine();
 				writer.write("Highest margin of defeat: " + finalTeamSpecificDataAsStrings[teamIndex][HIGHMARGINDEFEAT]);
 				writer.newLine();
-				writer.write("Lowest margin of victory: " + finalTeamSpecificDataAsStrings[teamIndex][HIGHMARGINVICTORY]);
+				writer.write("Lowest margin of victory: " + finalTeamSpecificDataAsStrings[teamIndex][LOWMARGINVICTORY]);
 				writer.newLine();
 				writer.write("Lowest margin of defeat: " + finalTeamSpecificDataAsStrings[teamIndex][LOWMARGINDEFEAT]);
+				writer.newLine();
+				writer.write("Total point differential: " + finalTeamSpecificDataAsStrings[teamIndex][POINTDIFFERENTIAL]);
 				writer.newLine();
 				writer.write("Average home points: " + finalTeamSpecificDataAsStrings[teamIndex][AVGPOINTSHOME]);
 				writer.newLine();
@@ -271,6 +210,7 @@ public class TrackerRobot {
 		}
 	}
 
+	
 	
 	
 	
@@ -323,14 +263,13 @@ public class TrackerRobot {
 		return container;
 	}
 
-	private static void massageTeamWeekIntoTeamStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentWeek, int currentTeam) {
+	private static void massageTeamWeekIntoTeamStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentWeek, int currentTeam, int gameIndex) {
 		
 		try 
 		{
 			float tempPointsFor = Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]);
 			float tempPointsAgainst = Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]);
 			float tempMargin;
-			
 			
 			currentTotalFor+= Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]); 
 			currentTotalAgainst+= Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]);
@@ -514,6 +453,16 @@ public class TrackerRobot {
 			//average points away
 			finalTeamSpecificData[currentTeam][AVGPOINTSAWAY] = currentTotalPointsAway / currentAwayGames;
 			
+			//point differential
+			finalTeamSpecificData[currentTeam][POINTDIFFERENTIAL] = currentTotalMarginVictory - currentTotalMarginDefeat;
+			
+			
+			//BEGIN LEAGUE WIDE STATS
+			
+			//this assembles a list of every individual team score, with the owner attributed in the second row of the array
+			ListOfGameScores[0][gameIndex] = tempData[currentWeek][TeamPointsForIndex];
+			ListOfGameScores[1][gameIndex] = tempData[currentWeek][TeamNameIndex];
+			
 			
 		} catch (Exception e)
 		{
@@ -523,10 +472,12 @@ public class TrackerRobot {
 		
 	}
 
-	private static void massageTeamWeekIntoLeagueStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentWeek, int currentTeam) {
+	private static void massageTeamWeekIntoLeagueStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentTeam, float[][] leagueWideStats) {
 
+		int weekIndex = 0;
 		try 
 		{
+			int x = 99;
 			
 		} catch (Exception e)
 		{
@@ -576,6 +527,8 @@ public class TrackerRobot {
 		return finalTeamSpecificDataAsStrings;
 	}
 	
+	
+	//individual team statistic array indices
 	final static int WINS = 0;
 	final static int LOSSES = 1;
 	final static int AVGPOINTSFOR = 2;
@@ -600,6 +553,50 @@ public class TrackerRobot {
 	final static int TOTALMARGINDEFEAT = 21;
 	final static int LOWMARGINVICTORY = 22;
 	final static int LOWMARGINDEFEAT = 23;
-	final static int TEAMNAME = 24;
+	final static int POINTDIFFERENTIAL = 24;
+	final static int TEAMNAME = 31;
+	
+	//individual team statistic EXTRACTION array indices
+	final static int SingleTeamDataSize = 8;
+	final static int TeamNameIndex = 0;
+	final static int TeamLocationIndex = 1;
+	final static int TeamPointsForIndex = 2;
+	final static int TeamPointsAgainstIndex = 3;
+	final static int TeamDivisionIndex = 4;
+	final static int TeamGameResultIndex = 5;
+	final static int TeamOpponentIndex = 6;
+	final static int TeamDivisionalGameIndex = 7;
+	
+	static int MassagedDataSizeBeforeTeamCountAdded = 30; //todo - likely to change
+	static int LEAGUEWIDESTATCOUNT = 15;
+
+	//STATS STATS STATS 
+	static String[][] ListOfGameScores;
+	
+	//temp containers for data massaging (single teams)
+	static float currentTotalFor = 0;
+	static float currentTotalAgainst = 0;
+	static float currentWins = 0;
+	static float currentLosses = 0;
+	static float currentHomeWins = 0;
+	static float currentHomeGames = 0;
+	static float currentAwayWins = 0;
+	static float currentAwayGames = 0;
+	static float currentHomeTotal = 0;
+	static float currentAwayTotal = 0;
+	static float currentDivisionalWins = 0;
+	static float currentDivisionalGames = 0;
+	static float currentNonDivisionalWins = 0;
+	static float currentNonDivisionalGames = 0;
+	static float currentHighMarginVictory = 0;
+	static float currentHighmarginDefeat = 0;
+	static float currentLowMarginVictory = 0;
+	static float currentLowMarginDefeat = 0;
+	static float currentAverageMarginVictory = 0;
+	static float currentAverageMarginDefeat = 0;
+	static float currentTotalMarginVictory = 0;
+	static float currentTotalMarginDefeat = 0;
+	static float currentTotalPointsHome = 0;
+	static float currentTotalPointsAway = 0;
 
 }

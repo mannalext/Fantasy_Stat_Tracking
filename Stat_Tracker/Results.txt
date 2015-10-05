@@ -19,8 +19,9 @@ Average margin of victory: 35.55
 Average margin of defeat: 0.19999695
 Highest margin of victory: 49.300003
 Highest margin of defeat: 0.19999695
-Lowest margin of victory: 49.300003
+Lowest margin of victory: 21.799995
 Lowest margin of defeat: 0.19999695
+Total point differential: 70.9
 Average home points: 120.8
 Average away points: 110.0
 
@@ -46,8 +47,9 @@ Average margin of victory: 22.5
 Average margin of defeat: 21.799995
 Highest margin of victory: 24.099998
 Highest margin of defeat: 21.799995
-Lowest margin of victory: 24.099998
+Lowest margin of victory: 20.900002
 Lowest margin of defeat: 21.799995
+Total point differential: 23.200005
 Average home points: 141.7
 Average away points: 92.65
 
@@ -73,8 +75,9 @@ Average margin of victory: 13.400002
 Average margin of defeat: 12.800003
 Highest margin of victory: 26.600006
 Highest margin of defeat: 12.800003
-Lowest margin of victory: 26.600006
+Lowest margin of victory: 0.19999695
 Lowest margin of defeat: 12.800003
+Total point differential: 14.0
 Average home points: 122.75
 Average away points: 95.7
 
@@ -100,8 +103,9 @@ Average margin of victory: 24.599998
 Average margin of defeat: 9.0
 Highest margin of victory: 36.399994
 Highest margin of defeat: 9.0
-Lowest margin of victory: 36.399994
+Lowest margin of victory: 12.800003
 Lowest margin of defeat: 9.0
+Total point differential: 40.199997
 Average home points: 113.65
 Average away points: 138.9
 
@@ -127,8 +131,9 @@ Average margin of victory: 10.299999
 Average margin of defeat: 49.300003
 Highest margin of victory: 11.599998
 Highest margin of defeat: 49.300003
-Lowest margin of victory: 11.599998
+Lowest margin of victory: 9.0
 Lowest margin of defeat: 49.300003
+Total point differential: -28.700005
 Average home points: 117.6
 Average away points: 100.45
 
@@ -156,6 +161,7 @@ Highest margin of victory: 8.599998
 Highest margin of defeat: 36.399994
 Lowest margin of victory: 8.599998
 Lowest margin of defeat: 11.599998
+Total point differential: -39.399994
 Average home points: 106.75
 Average away points: 106.0
 
@@ -181,8 +187,9 @@ Average margin of victory: 16.55
 Average margin of defeat: 17.699997
 Highest margin of victory: 23.099998
 Highest margin of defeat: 17.699997
-Lowest margin of victory: 23.099998
+Lowest margin of victory: 10.0
 Lowest margin of defeat: 17.699997
+Total point differential: 15.400002
 Average home points: 100.3
 Average away points: 112.9
 
@@ -210,6 +217,7 @@ Highest margin of victory: 62.0
 Highest margin of defeat: 10.0
 Lowest margin of victory: 62.0
 Lowest margin of defeat: 8.599998
+Total point differential: 43.4
 Average home points: 102.9
 Average away points: 119.3
 
@@ -237,6 +245,7 @@ Highest margin of victory: 17.699997
 Highest margin of defeat: 26.600006
 Lowest margin of victory: 17.699997
 Lowest margin of defeat: 20.900002
+Total point differential: -29.80001
 Average home points: 67.0
 Average away points: 117.899994
 
@@ -264,6 +273,7 @@ Highest margin of victory: 0.0
 Highest margin of defeat: 62.0
 Lowest margin of victory: 0.0
 Lowest margin of defeat: 23.099998
+Total point differential: -109.2
 Average home points: 74.2
 Average away points: 92.85
 
