@@ -83,7 +83,7 @@ public class TrackerRobot {
 	private static String[][] extractData(Sheet sheet) {
 		int teamCount = data.getTeamCount();
 		int numWeeks = data.getNumWeeks();
-		int dataSize = teamCount * SingleTeamDataSize;
+		int dataSize = teamCount * SINGLETEAMDATASIZE;
 		String[][] rawData = new String[numWeeks][dataSize];
 		int pos = 0;
 		int col = 2;
@@ -267,12 +267,8 @@ public class TrackerRobot {
 		}
 	}
 
-	
-	
-	
-	
-	
-	//HELPER FUNCTIONS
+
+	//HELPER FUNCTIONS BELOW
 	
 	private static String[] extractTeamNames(Sheet sheet) {
 		String[] teamNames = new String[10];
@@ -295,16 +291,16 @@ public class TrackerRobot {
 		int team = 0;
 		int row = 0;
 		int col = 0;
-		int offset = SingleTeamDataSize * increment;
+		int offset = SINGLETEAMDATASIZE * increment;
 		int numWeeks = data.getNumWeeks();
 		String[][] rawData = data.getRawData();
-		String[][] container = new String[numWeeks][SingleTeamDataSize];
+		String[][] container = new String[numWeeks][SINGLETEAMDATASIZE];
 
 		try 
 		{
 			for (int y = 0; y < numWeeks; y++)
 			{
-				for (int x = 0; x < SingleTeamDataSize; x++)
+				for (int x = 0; x < SINGLETEAMDATASIZE; x++)
 				{
 					container[row][col] = rawData[team][x + offset];
 					col++;
@@ -327,15 +323,15 @@ public class TrackerRobot {
 		try 
 		{
 			int numWeeks = data.getNumWeeks();
-			float tempPointsFor = Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]);
-			float tempPointsAgainst = Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]);
+			float tempPointsFor = Float.parseFloat(tempData[currentWeek][TEAMPOINTSFORINDEX]);
+			float tempPointsAgainst = Float.parseFloat(tempData[currentWeek][TEAMPOINTSAGAINSTINDEX]);
 			float tempMargin;
 			
-			currentTotalFor+= Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]); 
-			currentTotalAgainst+= Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]);
+			currentTotalFor+= Float.parseFloat(tempData[currentWeek][TEAMPOINTSFORINDEX]); 
+			currentTotalAgainst+= Float.parseFloat(tempData[currentWeek][TEAMPOINTSAGAINSTINDEX]);
 			
 			//team wins and losses, home wins and losses, divisional wins and losses, margins of victory/defeat		
-			if (tempData[currentWeek][TeamGameResultIndex].equals("W"))
+			if (tempData[currentWeek][TEAMGAMERESULTINDEX].equals("W"))
 			{	
 				tempMargin = tempPointsFor - tempPointsAgainst;
 				currentTotalMarginVictory+= tempMargin;
@@ -358,32 +354,32 @@ public class TrackerRobot {
 					finalTeamSpecificData[currentTeam][LOWMARGINVICTORY] = tempMargin;
 				}
 				
-				if (tempData[currentWeek][TeamLocationIndex].equals("H"))
+				if (tempData[currentWeek][TEAMLOCATIONINDEX].equals("H"))
 				{
 					currentTotalPointsHome+= tempPointsFor;
 					currentHomeWins++;
 					currentHomeGames++;
 				} 
-				else if (tempData[currentWeek][TeamLocationIndex].equals("A"))
+				else if (tempData[currentWeek][TEAMLOCATIONINDEX].equals("A"))
 				{
 					currentTotalPointsAway+= tempPointsFor;
 					currentAwayWins++;
 					currentAwayGames++;
 				}
 				
-				if (tempData[currentWeek][TeamDivisionalGameIndex].equals("Y"))
+				if (tempData[currentWeek][TEAMDIVISIONALGAMEINDEX].equals("Y"))
 				{
 					currentDivisionalWins++;
 					currentDivisionalGames++;
 				}
-				else if (tempData[currentWeek][TeamDivisionalGameIndex].equals("N"))
+				else if (tempData[currentWeek][TEAMDIVISIONALGAMEINDEX].equals("N"))
 				{
 					currentNonDivisionalWins++;
 					currentNonDivisionalGames++;
 				}
 				finalTeamSpecificData[currentTeam][WINS]++;
 			}
-			else if (tempData[currentWeek][TeamGameResultIndex].equals("L"))
+			else if (tempData[currentWeek][TEAMGAMERESULTINDEX].equals("L"))
 			{
 				tempMargin = tempPointsAgainst - tempPointsFor;
 				currentTotalMarginDefeat+= tempMargin;
@@ -406,27 +402,27 @@ public class TrackerRobot {
 					finalTeamSpecificData[currentTeam][LOWMARGINDEFEAT] = tempMargin;
 				}
 				
-				if (tempData[currentWeek][TeamLocationIndex].equals("H"))
+				if (tempData[currentWeek][TEAMLOCATIONINDEX].equals("H"))
 				{
 					currentTotalPointsHome+= tempPointsFor;
 					currentHomeGames++;
 				}
-				else if (tempData[currentWeek][TeamLocationIndex].equals("A"))
+				else if (tempData[currentWeek][TEAMLOCATIONINDEX].equals("A"))
 				{
 					currentTotalPointsAway+= tempPointsFor;
 					currentAwayGames++;
 				}
-				if (tempData[currentWeek][TeamDivisionalGameIndex].equals("Y"))
+				if (tempData[currentWeek][TEAMDIVISIONALGAMEINDEX].equals("Y"))
 				{
 					currentDivisionalGames++;
 				}
-				else if (tempData[currentWeek][TeamDivisionalGameIndex].equals("N"))
+				else if (tempData[currentWeek][TEAMDIVISIONALGAMEINDEX].equals("N"))
 				{
 					currentNonDivisionalGames++;
 				}
 				finalTeamSpecificData[currentTeam][LOSSES]++;
 			}
-			else if (tempData[currentWeek][TeamGameResultIndex].equals("T"))
+			else if (tempData[currentWeek][TEAMGAMERESULTINDEX].equals("T"))
 			{
 				//ties are not implemented in this version
 			}
@@ -440,41 +436,41 @@ public class TrackerRobot {
 			//team high points for
 			if (finalTeamSpecificData[currentTeam][HIGHPOINTSFOR] == 0)
 			{
-				finalTeamSpecificData[currentTeam][HIGHPOINTSFOR] = Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]);
+				finalTeamSpecificData[currentTeam][HIGHPOINTSFOR] = Float.parseFloat(tempData[currentWeek][TEAMPOINTSFORINDEX]);
 			} 
-			else if (finalTeamSpecificData[currentTeam][HIGHPOINTSFOR] < Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]))
+			else if (finalTeamSpecificData[currentTeam][HIGHPOINTSFOR] < Float.parseFloat(tempData[currentWeek][TEAMPOINTSFORINDEX]))
 			{
-				finalTeamSpecificData[currentTeam][HIGHPOINTSFOR] = Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]);
+				finalTeamSpecificData[currentTeam][HIGHPOINTSFOR] = Float.parseFloat(tempData[currentWeek][TEAMPOINTSFORINDEX]);
 			}
 			
 			//team low points for
 			if (finalTeamSpecificData[currentTeam][LOWPOINTSFOR] == 0)
 			{
-				finalTeamSpecificData[currentTeam][LOWPOINTSFOR] = Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]);
+				finalTeamSpecificData[currentTeam][LOWPOINTSFOR] = Float.parseFloat(tempData[currentWeek][TEAMPOINTSFORINDEX]);
 			} 
-			else if (finalTeamSpecificData[currentTeam][LOWPOINTSFOR] > Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]))
+			else if (finalTeamSpecificData[currentTeam][LOWPOINTSFOR] > Float.parseFloat(tempData[currentWeek][TEAMPOINTSFORINDEX]))
 			{
-				finalTeamSpecificData[currentTeam][LOWPOINTSFOR] = Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]);
+				finalTeamSpecificData[currentTeam][LOWPOINTSFOR] = Float.parseFloat(tempData[currentWeek][TEAMPOINTSFORINDEX]);
 			}
 			
 			//team high points against
 			if (finalTeamSpecificData[currentTeam][HIGHPOINTSAGAINST] == 0)
 			{
-				finalTeamSpecificData[currentTeam][HIGHPOINTSAGAINST] = Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]);
+				finalTeamSpecificData[currentTeam][HIGHPOINTSAGAINST] = Float.parseFloat(tempData[currentWeek][TEAMPOINTSAGAINSTINDEX]);
 			} 
-			else if (finalTeamSpecificData[currentTeam][HIGHPOINTSAGAINST] < Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]))
+			else if (finalTeamSpecificData[currentTeam][HIGHPOINTSAGAINST] < Float.parseFloat(tempData[currentWeek][TEAMPOINTSAGAINSTINDEX]))
 			{
-				finalTeamSpecificData[currentTeam][HIGHPOINTSAGAINST] = Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]);
+				finalTeamSpecificData[currentTeam][HIGHPOINTSAGAINST] = Float.parseFloat(tempData[currentWeek][TEAMPOINTSAGAINSTINDEX]);
 			}
 			
 			//team low points against
 			if (finalTeamSpecificData[currentTeam][LOWPOINTSAGAINST] == 0)
 			{
-				finalTeamSpecificData[currentTeam][LOWPOINTSAGAINST] = Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]);
+				finalTeamSpecificData[currentTeam][LOWPOINTSAGAINST] = Float.parseFloat(tempData[currentWeek][TEAMPOINTSAGAINSTINDEX]);
 			} 
-			else if (finalTeamSpecificData[currentTeam][LOWPOINTSAGAINST] > Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]))
+			else if (finalTeamSpecificData[currentTeam][LOWPOINTSAGAINST] > Float.parseFloat(tempData[currentWeek][TEAMPOINTSAGAINSTINDEX]))
 			{
-				finalTeamSpecificData[currentTeam][LOWPOINTSAGAINST] = Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]);
+				finalTeamSpecificData[currentTeam][LOWPOINTSAGAINST] = Float.parseFloat(tempData[currentWeek][TEAMPOINTSAGAINSTINDEX]);
 			}
 			
 			//team total points against
@@ -520,8 +516,8 @@ public class TrackerRobot {
 			//BEGIN LEAGUE WIDE STATS
 			
 			//this assembles a list of every individual team score, with the owner attributed in the second row of the array
-			gameScores[0][gameIndex] = tempData[currentWeek][TeamPointsForIndex];
-			gameScores[1][gameIndex] = tempData[currentWeek][TeamNameIndex];
+			gameScores[0][gameIndex] = tempData[currentWeek][TEAMPOINTSFORINDEX];
+			gameScores[1][gameIndex] = tempData[currentWeek][TEAMNAMEINDEX];
 			
 			
 		} catch (Exception e)
@@ -757,20 +753,17 @@ public class TrackerRobot {
 	final static int FOURTHLOWESTSCORE = 8;
 	final static int FIFTHLOWESTSCORE = 9;
 	
-	
 	//individual team statistic EXTRACTION array indices
-	final static int SingleTeamDataSize = 8;
-	final static int TeamNameIndex = 0;
-	final static int TeamLocationIndex = 1;
-	final static int TeamPointsForIndex = 2;
-	final static int TeamPointsAgainstIndex = 3;
-	final static int TeamDivisionIndex = 4;
-	final static int TeamGameResultIndex = 5;
-	final static int TeamOpponentIndex = 6;
-	final static int TeamDivisionalGameIndex = 7;
+	final static int SINGLETEAMDATASIZE = 8;
+	final static int TEAMNAMEINDEX = 0;
+	final static int TEAMLOCATIONINDEX = 1;
+	final static int TEAMPOINTSFORINDEX = 2;
+	final static int TEAMPOINTSAGAINSTINDEX = 3;
+	final static int TEAMDIVISIONINDEX = 4;
+	final static int TEAMGAMERESULTINDEX = 5;
+	final static int TEAMOPPONENTINDEX = 6;
+	final static int TEAMDIVISIONALGAMEINDEX = 7;
 
-	//STATS STATS STATS 
-	static String[][] ListOfGameScores;
 	
 	//temp containers for data massaging (single teams)
 	static float currentTotalFor = 0;
