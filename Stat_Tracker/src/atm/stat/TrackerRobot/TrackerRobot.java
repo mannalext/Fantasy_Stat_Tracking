@@ -14,48 +14,63 @@ import java.util.PriorityQueue;
 import jxl.*; 
 
 public class TrackerRobot {
+	
+	static DataManager data;
+	
+	//constants and indices
+	static int DATASIZEBEFORETEAMCOUNT = 30;
+	static int LEAGUEWIDESTATCOUNT = 15;
 
 	public static void main(String[] args) {
 		try 
 		{
-			
-			//getting the file from current directory? works on mac. need to test on windows
+			//getting the data file from current directory
+			//this will be generalized when I build the UI. file will be selectable there
 			String userDir = System.getProperty("user.dir");
 			userDir = userDir.concat("/ACT_data.xls");
-			System.out.println(userDir);
-			Workbook workbook = Workbook.getWorkbook(new File(userDir));
-
-			//mac
-			//Workbook workbook = Workbook.getWorkbook(new File("/Users/alexmann/Developer/Fantasy_Stat_Tracking/inputFile_old.xls")); 	
-
-			//windows
-			//Workbook workbook = Workbook.getWorkbook(new File("C:\\Users\\Alex\\Documents\\GitHub\\Fantasy_Stat_Tracking\\inputFile_old.xls")); 	
-
-			Sheet sheet = workbook.getSheet(0); 	  
-
-
+			Workbook workbook = Workbook.getWorkbook(new File(userDir));	
+			Sheet sheet = workbook.getSheet(0); 
+			
+		
+			//DataManager object initialization
+			data = new DataManager();
+			
+			
+			//basic setup data
 			Cell a2 = sheet.getCell(0,1); 
 			String teamCount = a2.getContents();
 			int teamCountInt = Integer.parseInt(teamCount);
-			int finalMassagedDataSize = teamCountInt - 1 + MassagedDataSizeBeforeTeamCountAdded;
+			data.setTeamCount(teamCountInt);			
 
 			Cell b1 = sheet.getCell(1, 1);
 			String numWeeks = b1.getContents();
 			int numWeeksInt = Integer.parseInt(numWeeks);
+			data.setNumWeeks(numWeeksInt);
 
 			Cell a3 = sheet.getCell(0, 3);
 			String numDivisions = a3.getContents();
 			int numDivisionsInt = Integer.parseInt(numDivisions);
+			data.setNumDivisions(numDivisionsInt);
 			
 			String[] teamNames = new String[10];
-			teamNames = getTeamNames(sheet);
+			teamNames = extractTeamNames(sheet);
+			data.setTeamNames(teamNames);
+			
+			int totalGameCount = numWeeksInt * teamCountInt;
+			data.setNumGames(totalGameCount);
+			
+			int finalMassagedDataSize = teamCountInt - 1 + DATASIZEBEFORETEAMCOUNT;
+			data.setMassagedDataSize(finalMassagedDataSize);
+			//end basic setup data
 						
-			ListOfGameScores = new String[2][numWeeksInt*teamCountInt];
-			String[][] leagueWideStats = new String[2][LEAGUEWIDESTATCOUNT];
-			//LOGIC   
-			String[][] data = extractData(sheet, teamCountInt, numWeeksInt);
-			String[][] finalTeamSpecificDataAsStrings = massageData(data, teamCountInt, finalMassagedDataSize, numWeeksInt, leagueWideStats);
-			printData(finalTeamSpecificDataAsStrings, teamNames, leagueWideStats);
+			
+			//LOGIC CALLS 
+			String[][] tempRawData = extractData(sheet); //remove the return value from extractData and store it straight into data.rawData
+			data.setRawData(tempRawData);
+			massageData();
+			printData();
+			//String[][] finalTeamSpecificDataAsStrings = massageData(data, finalMassagedDataSize);
+			
 
 		} catch (Exception e)
 		{
@@ -65,11 +80,11 @@ public class TrackerRobot {
 		}
 	}
 
-	private static String[][] extractData(Sheet sheet, int teamCountInt, int numWeeksInt) {
-
-		int dataSize = teamCountInt * SingleTeamDataSize;
-
-		String[][] data = new String[numWeeksInt][dataSize];
+	private static String[][] extractData(Sheet sheet) {
+		int teamCount = data.getTeamCount();
+		int numWeeks = data.getNumWeeks();
+		int dataSize = teamCount * SingleTeamDataSize;
+		String[][] rawData = new String[numWeeks][dataSize];
 		int pos = 0;
 		int col = 2;
 		int row = 1;
@@ -77,13 +92,13 @@ public class TrackerRobot {
 
 		try 
 		{
-			for (int y = 0; y < numWeeksInt; y++)
+			for (int y = 0; y < numWeeks; y++)
 			{
 				for (int x = 0; x < dataSize; x++)
 				{
 					Cell datum = sheet.getCell(col, row);
 					String datumString = datum.getContents();
-					data[week][pos] = datumString;
+					rawData[week][pos] = datumString;
 					col++;
 					pos++;
 				}
@@ -98,108 +113,121 @@ public class TrackerRobot {
 			System.out.println("out of extractData");
 			e.printStackTrace();
 		}
-		return data;
+		return rawData;
 	}
 
-	private static String[][] massageData(String[][] data, int teamCountInt, int finalMassagedDataSize, int numWeeksInt, String[][] leagueWideStats) {
+	private static void massageData() {
+		int teamCount = data.getTeamCount();
+		int numWeeks = data.getNumWeeks();
+		int numGames = data.getNumGames();
+		int massagedDataSize = data.getMassagedDataSize();
+		String[][] rawData = data.getRawData();
+		float[][] teamStatsAsFloats = new float[teamCount][massagedDataSize];
+		String[][] oneTeam = new String[teamCount][massagedDataSize];
+		String[][] gameScores = new String[2][numGames];
 
-		float[][] finalTeamSpecificData = new float[teamCountInt][finalMassagedDataSize]; //this will be the result of this function
-		String[][] tempData = new String[numWeeksInt][finalMassagedDataSize]; //this is the temp container that will hold each person's full historical stats, one person at a time
 
 		int currentTeam = 0;
 		int currentWeek = 0;
 		int gameIndex = 0;
+		
+		float[][] finalTeamSpecificData = new float[teamCount][massagedDataSize]; //this will be the result of this function
 
 		try 
 		{
-			for (int x = 0; x < teamCountInt; x++)
+			for (int x = 0; x < teamCount; x++)
 			{
-				tempData = extractOneTeam(data, numWeeksInt, currentTeam);
-				for (int y = 0; y < numWeeksInt; y++) 
+				oneTeam = extractOneTeam(currentTeam);
+				for (int y = 0; y < numWeeks; y++) 
 				{
-					massageTeamWeekIntoTeamStats(tempData, finalTeamSpecificData, numWeeksInt, currentWeek, currentTeam, gameIndex); //passing increment as currentTeam index
+					massageTeamWeekIntoTeamStats(oneTeam, finalTeamSpecificData, currentTeam, gameIndex, currentWeek, gameScores);
 					gameIndex++;
 					currentWeek++;
 				}
 				
-				assembleLeagueStats(tempData, finalTeamSpecificData, numWeeksInt, currentTeam, leagueWideStats);
+				assembleLeagueStats(currentTeam);
 				currentTeam++;
 				currentWeek = 0;
 				clearTemporaryVariables();
 			}
-			highestAndLowestScores(leagueWideStats);
+			data.setGameScores(gameScores); //FINALTEAMSPECIFICDATA IS CORRECT AS OF RIGHT HERE
+			data.setTeamStatsAsFloats(finalTeamSpecificData);
+			highestAndLowestScores();
 	
+			
+			convertFloatArrayToString();
+			System.out.println("debug");
+
 		} catch (Exception e)
 		{
 			System.out.println("out of massageData");
 			e.printStackTrace();
 		}
 		
-		String[][] finalTeamSpecificDataAsStrings = convertFloatArrayToString(finalTeamSpecificData, teamCountInt, finalMassagedDataSize);
-		
-		return finalTeamSpecificDataAsStrings;
-		
 	}
 
-	private static void printData(String[][] finalTeamSpecificDataAsStrings, String[] teamNames, String[][] leagueWideStats) throws FileNotFoundException, UnsupportedEncodingException {
+	private static void printData() throws FileNotFoundException, UnsupportedEncodingException {
 		
 		try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Results.txt"), "utf-8"))) 
 		{
+			String[] teamNames = data.getTeamNames();
+			String[][] teamStatsAsStrings = data.getTeamStatsAsStrings();
+			String[][] leagueWideStats = data.getLeagueStats();
 			int teamIndex = 0;
 			
 			for (int x = 0; x < teamNames.length; x++)
 			{
 				writer.write(teamNames[teamIndex]);
 				writer.newLine();
-				writer.write("Wins: " + finalTeamSpecificDataAsStrings[teamIndex][WINS]);
+				writer.write("Wins: " + teamStatsAsStrings[teamIndex][WINS]);
 				writer.newLine();
-				writer.write("Losses: " + finalTeamSpecificDataAsStrings[teamIndex][LOSSES]);
+				writer.write("Losses: " + teamStatsAsStrings[teamIndex][LOSSES]);
 				writer.newLine();
-				writer.write("Home winning pct: " + finalTeamSpecificDataAsStrings[teamIndex][HOMEWINPCT]);
+				writer.write("Home winning pct: " + teamStatsAsStrings[teamIndex][HOMEWINPCT]);
 				writer.newLine();
-				writer.write("Away winning pct: " + finalTeamSpecificDataAsStrings[teamIndex][AWAYWINPCT]);
+				writer.write("Away winning pct: " + teamStatsAsStrings[teamIndex][AWAYWINPCT]);
 				writer.newLine();
-				writer.write("Divisional record: " + finalTeamSpecificDataAsStrings[teamIndex][DIVRECORD]);
+				writer.write("Divisional record: " + teamStatsAsStrings[teamIndex][DIVRECORD]);
 				writer.newLine();
-				writer.write("Non divisional record: " + finalTeamSpecificDataAsStrings[teamIndex][NONDIVRECORD]);
+				writer.write("Non divisional record: " + teamStatsAsStrings[teamIndex][NONDIVRECORD]);
 				writer.newLine();
-				writer.write("Total points for: " + finalTeamSpecificDataAsStrings[teamIndex][TOTALPOINTSFOR]);
+				writer.write("Total points for: " + teamStatsAsStrings[teamIndex][TOTALPOINTSFOR]);
 				writer.newLine();
-				writer.write("Total points against: " + finalTeamSpecificDataAsStrings[teamIndex][TOTALPOINTSAGAINST]);
+				writer.write("Total points against: " + teamStatsAsStrings[teamIndex][TOTALPOINTSAGAINST]);
 				writer.newLine();
-				writer.write("Average points for: " + finalTeamSpecificDataAsStrings[teamIndex][AVGPOINTSFOR]);
+				writer.write("Average points for: " + teamStatsAsStrings[teamIndex][AVGPOINTSFOR]);
 				writer.newLine();
-				writer.write("Average points against: " + finalTeamSpecificDataAsStrings[teamIndex][AVGPOINTSAGAINST]);
+				writer.write("Average points against: " + teamStatsAsStrings[teamIndex][AVGPOINTSAGAINST]);
 				writer.newLine();
-				writer.write("Highest points for: " + finalTeamSpecificDataAsStrings[teamIndex][HIGHPOINTSFOR]);
+				writer.write("Highest points for: " + teamStatsAsStrings[teamIndex][HIGHPOINTSFOR]);
 				writer.newLine();
-				writer.write("Lowest points for: " + finalTeamSpecificDataAsStrings[teamIndex][LOWPOINTSFOR]);
+				writer.write("Lowest points for: " + teamStatsAsStrings[teamIndex][LOWPOINTSFOR]);
 				writer.newLine();
-				writer.write("Highest points against: " + finalTeamSpecificDataAsStrings[teamIndex][HIGHPOINTSAGAINST]);
+				writer.write("Highest points against: " + teamStatsAsStrings[teamIndex][HIGHPOINTSAGAINST]);
 				writer.newLine();
-				writer.write("Lowest points against: " + finalTeamSpecificDataAsStrings[teamIndex][LOWPOINTSAGAINST]);
+				writer.write("Lowest points against: " + teamStatsAsStrings[teamIndex][LOWPOINTSAGAINST]);
 				writer.newLine();
-				writer.write("Total margin of victory: " + finalTeamSpecificDataAsStrings[teamIndex][TOTALMARGINVICTORY]);
+				writer.write("Total margin of victory: " + teamStatsAsStrings[teamIndex][TOTALMARGINVICTORY]);
 				writer.newLine();
-				writer.write("Total margin of defeat: " + finalTeamSpecificDataAsStrings[teamIndex][TOTALMARGINDEFEAT]);
+				writer.write("Total margin of defeat: " + teamStatsAsStrings[teamIndex][TOTALMARGINDEFEAT]);
 				writer.newLine();
-				writer.write("Average margin of victory: " + finalTeamSpecificDataAsStrings[teamIndex][AVGMARGINVICTORY]);
+				writer.write("Average margin of victory: " + teamStatsAsStrings[teamIndex][AVGMARGINVICTORY]);
 				writer.newLine();
-				writer.write("Average margin of defeat: " + finalTeamSpecificDataAsStrings[teamIndex][AVGMARGINDEFEAT]);
+				writer.write("Average margin of defeat: " + teamStatsAsStrings[teamIndex][AVGMARGINDEFEAT]);
 				writer.newLine();
-				writer.write("Highest margin of victory: " + finalTeamSpecificDataAsStrings[teamIndex][HIGHMARGINVICTORY]);
+				writer.write("Highest margin of victory: " + teamStatsAsStrings[teamIndex][HIGHMARGINVICTORY]);
 				writer.newLine();
-				writer.write("Highest margin of defeat: " + finalTeamSpecificDataAsStrings[teamIndex][HIGHMARGINDEFEAT]);
+				writer.write("Highest margin of defeat: " + teamStatsAsStrings[teamIndex][HIGHMARGINDEFEAT]);
 				writer.newLine();
-				writer.write("Lowest margin of victory: " + finalTeamSpecificDataAsStrings[teamIndex][LOWMARGINVICTORY]);
+				writer.write("Lowest margin of victory: " + teamStatsAsStrings[teamIndex][LOWMARGINVICTORY]);
 				writer.newLine();
-				writer.write("Lowest margin of defeat: " + finalTeamSpecificDataAsStrings[teamIndex][LOWMARGINDEFEAT]);
+				writer.write("Lowest margin of defeat: " + teamStatsAsStrings[teamIndex][LOWMARGINDEFEAT]);
 				writer.newLine();
-				writer.write("Total point differential: " + finalTeamSpecificDataAsStrings[teamIndex][POINTDIFFERENTIAL]);
+				writer.write("Total point differential: " + teamStatsAsStrings[teamIndex][POINTDIFFERENTIAL]);
 				writer.newLine();
-				writer.write("Average home points: " + finalTeamSpecificDataAsStrings[teamIndex][AVGPOINTSHOME]);
+				writer.write("Average home points: " + teamStatsAsStrings[teamIndex][AVGPOINTSHOME]);
 				writer.newLine();
-				writer.write("Average away points: " + finalTeamSpecificDataAsStrings[teamIndex][AVGPOINTSAWAY]);
+				writer.write("Average away points: " + teamStatsAsStrings[teamIndex][AVGPOINTSAWAY]);
 				writer.newLine();
 				writer.newLine();
 				teamIndex++;
@@ -246,7 +274,7 @@ public class TrackerRobot {
 	
 	//HELPER FUNCTIONS
 	
-	private static String[] getTeamNames(Sheet sheet) {
+	private static String[] extractTeamNames(Sheet sheet) {
 		String[] teamNames = new String[10];
 		String teamNameString;
 		int col = 0;
@@ -263,20 +291,22 @@ public class TrackerRobot {
 		return teamNames;
 	}
 	
-	private static String[][] extractOneTeam(String[][] data, int numWeeksInt, int increment) {
+	private static String[][] extractOneTeam(int increment) {
 		int team = 0;
 		int row = 0;
 		int col = 0;
 		int offset = SingleTeamDataSize * increment;
-		String[][] container = new String[numWeeksInt][SingleTeamDataSize];
+		int numWeeks = data.getNumWeeks();
+		String[][] rawData = data.getRawData();
+		String[][] container = new String[numWeeks][SingleTeamDataSize];
 
 		try 
 		{
-			for (int y = 0; y < numWeeksInt; y++)
+			for (int y = 0; y < numWeeks; y++)
 			{
 				for (int x = 0; x < SingleTeamDataSize; x++)
 				{
-					container[row][col] = data[team][x + offset];
+					container[row][col] = rawData[team][x + offset];
 					col++;
 				}
 				col = 0;
@@ -292,10 +322,11 @@ public class TrackerRobot {
 		return container;
 	}
 
-	private static void massageTeamWeekIntoTeamStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentWeek, int currentTeam, int gameIndex) {
+	private static void massageTeamWeekIntoTeamStats(String[][] tempData, float[][] finalTeamSpecificData, int currentTeam, int gameIndex, int currentWeek, String[][] gameScores) {
 		
 		try 
 		{
+			int numWeeks = data.getNumWeeks();
 			float tempPointsFor = Float.parseFloat(tempData[currentWeek][TeamPointsForIndex]);
 			float tempPointsAgainst = Float.parseFloat(tempData[currentWeek][TeamPointsAgainstIndex]);
 			float tempMargin;
@@ -401,10 +432,10 @@ public class TrackerRobot {
 			}
 			
 			//team average points for
-			finalTeamSpecificData[currentTeam][AVGPOINTSFOR] = currentTotalFor / numWeeksInt;
+			finalTeamSpecificData[currentTeam][AVGPOINTSFOR] = currentTotalFor / numWeeks;
 			
 			//team average points against
-			finalTeamSpecificData[currentTeam][AVGPOINTSAGAINST] = currentTotalAgainst / numWeeksInt;
+			finalTeamSpecificData[currentTeam][AVGPOINTSAGAINST] = currentTotalAgainst / numWeeks;
 			
 			//team high points for
 			if (finalTeamSpecificData[currentTeam][HIGHPOINTSFOR] == 0)
@@ -489,8 +520,8 @@ public class TrackerRobot {
 			//BEGIN LEAGUE WIDE STATS
 			
 			//this assembles a list of every individual team score, with the owner attributed in the second row of the array
-			ListOfGameScores[0][gameIndex] = tempData[currentWeek][TeamPointsForIndex];
-			ListOfGameScores[1][gameIndex] = tempData[currentWeek][TeamNameIndex];
+			gameScores[0][gameIndex] = tempData[currentWeek][TeamPointsForIndex];
+			gameScores[1][gameIndex] = tempData[currentWeek][TeamNameIndex];
 			
 			
 		} catch (Exception e)
@@ -501,15 +532,17 @@ public class TrackerRobot {
 		
 	}
 
-	private static void assembleLeagueStats(String[][] tempData, float[][] finalTeamSpecificData, int numWeeksInt, int currentTeam, String[][] leagueWideStats) {
+	private static void assembleLeagueStats(int currentTeam) {
 
 		//every time this function gets called, tempData will contain the entire data of one team
 		
 	}
 	
-	private static void highestAndLowestScores(String[][] leagueWideStats) {
+	private static void highestAndLowestScores() {
 		try 
 		{
+			String[][] leagueWideStats = new String[2][LEAGUEWIDESTATCOUNT];
+			String[][] gameScores = data.getGameScores();
 			float high1 = 0;
 			float high2 = 0;
 			float high3 = 0;
@@ -521,114 +554,115 @@ public class TrackerRobot {
 			float low4 = 0;
 			float low5 = 0;
 			
-			high1 = Float.parseFloat(ListOfGameScores[0][0]);
-			low1 = Float.parseFloat(ListOfGameScores[0][0]);
+			high1 = Float.parseFloat(gameScores[0][0]);
+			low1 = Float.parseFloat(gameScores[0][0]);
 			
-			for (int x = 1; x < ListOfGameScores[0].length; x++)
+			for (int x = 1; x < gameScores[0].length; x++)
 			{
 				//5 highest scores
-				if (Float.parseFloat(ListOfGameScores[0][x]) > high1)
+				if (Float.parseFloat(gameScores[0][x]) > high1)
 				{
 					high5 = high4;
 					high4 = high3;
 					high3 = high2;
 					high2 = high1;
-					high1 = Float.parseFloat(ListOfGameScores[0][x]);
-				} else if (Float.parseFloat(ListOfGameScores[0][x]) > high2)
+					high1 = Float.parseFloat(gameScores[0][x]);
+				} else if (Float.parseFloat(gameScores[0][x]) > high2)
 				{
 					high5 = high4;
 					high4 = high3;
 					high3 = high2;
-					high2 = Float.parseFloat(ListOfGameScores[0][x]);
-				} else if (Float.parseFloat(ListOfGameScores[0][x]) > high3)
+					high2 = Float.parseFloat(gameScores[0][x]);
+				} else if (Float.parseFloat(gameScores[0][x]) > high3)
 				{
 					high5 = high4;
 					high4 = high3;
-					high3 = Float.parseFloat(ListOfGameScores[0][x]);
-				} else if (Float.parseFloat(ListOfGameScores[0][x]) > high4)
+					high3 = Float.parseFloat(gameScores[0][x]);
+				} else if (Float.parseFloat(gameScores[0][x]) > high4)
 				{
 					high5 = high4;
-					high4 = Float.parseFloat(ListOfGameScores[0][x]);
-				} else if (Float.parseFloat(ListOfGameScores[0][x]) > high5)
+					high4 = Float.parseFloat(gameScores[0][x]);
+				} else if (Float.parseFloat(gameScores[0][x]) > high5)
 				{
-					high5 = Float.parseFloat(ListOfGameScores[0][x]);
+					high5 = Float.parseFloat(gameScores[0][x]);
 				}
 				
 				//5 lowest scores
-				if (Float.parseFloat(ListOfGameScores[0][x]) < low1)
+				if (Float.parseFloat(gameScores[0][x]) < low1)
 				{
 					low5 = low4;
 					low4 = low3;
 					low3 = low2;
 					low2 = low1;
-					low1 = Float.parseFloat(ListOfGameScores[0][x]);
-				} else if (Float.parseFloat(ListOfGameScores[0][x]) < low2)
+					low1 = Float.parseFloat(gameScores[0][x]);
+				} else if (Float.parseFloat(gameScores[0][x]) < low2)
 				{
 					low5 = low4;
 					low4 = low3;
 					low3 = low2;
-					low2 = Float.parseFloat(ListOfGameScores[0][x]);
-				} else if (Float.parseFloat(ListOfGameScores[0][x]) < low3)
+					low2 = Float.parseFloat(gameScores[0][x]);
+				} else if (Float.parseFloat(gameScores[0][x]) < low3)
 				{
 					low5 = low4;
 					low4 = low3;
-					low3 = Float.parseFloat(ListOfGameScores[0][x]);
-				} else if (Float.parseFloat(ListOfGameScores[0][x]) < low4)
+					low3 = Float.parseFloat(gameScores[0][x]);
+				} else if (Float.parseFloat(gameScores[0][x]) < low4)
 				{
 					low5 = low4;
-					low4 = Float.parseFloat(ListOfGameScores[0][x]);
-				} else if (Float.parseFloat(ListOfGameScores[0][x]) < low5)
+					low4 = Float.parseFloat(gameScores[0][x]);
+				} else if (Float.parseFloat(gameScores[0][x]) < low5)
 				{
-					low5 = Float.parseFloat(ListOfGameScores[0][x]);
+					low5 = Float.parseFloat(gameScores[0][x]);
 				}
 			}
 			
-			for (int y = 0; y < ListOfGameScores[0].length; y++)
+			for (int y = 0; y < gameScores[0].length; y++)
 			{
-				String string = ListOfGameScores[0][y];
+				String string = gameScores[0][y];
 				if (String.valueOf(high1).equals(string)) 
 				{
-					leagueWideStats[0][HIGHESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][HIGHESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][HIGHESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][HIGHESTSCORE] = gameScores[1][y];
 				} else if (high2 == Float.parseFloat(string))
 				{
-					leagueWideStats[0][SECONDHIGHESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][SECONDHIGHESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][SECONDHIGHESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][SECONDHIGHESTSCORE] = gameScores[1][y];
 				} else if (high3 == Float.parseFloat(string))
 				{
-					leagueWideStats[0][THIRDHIGHESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][THIRDHIGHESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][THIRDHIGHESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][THIRDHIGHESTSCORE] = gameScores[1][y];
 				} else if (high4 == Float.parseFloat(string))
 				{
-					leagueWideStats[0][FOURTHHIGHESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][FOURTHHIGHESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][FOURTHHIGHESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][FOURTHHIGHESTSCORE] = gameScores[1][y];
 				} else if (high5 == Float.parseFloat(string))
 				{
-					leagueWideStats[0][FIFTHHIGHESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][FIFTHHIGHESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][FIFTHHIGHESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][FIFTHHIGHESTSCORE] = gameScores[1][y];
 				} else if (low1 == Float.parseFloat(string))
 				{
-					leagueWideStats[0][LOWESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][LOWESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][LOWESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][LOWESTSCORE] = gameScores[1][y];
 				} else if (low2 == Float.parseFloat(string))
 				{
-					leagueWideStats[0][SECONDLOWESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][SECONDLOWESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][SECONDLOWESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][SECONDLOWESTSCORE] = gameScores[1][y];
 				} else if (low3 == Float.parseFloat(string))
 				{
-					leagueWideStats[0][THIRDLOWESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][THIRDLOWESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][THIRDLOWESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][THIRDLOWESTSCORE] = gameScores[1][y];
 				} else if (low4 == Float.parseFloat(string))
 				{
-					leagueWideStats[0][FOURTHLOWESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][FOURTHLOWESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][FOURTHLOWESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][FOURTHLOWESTSCORE] = gameScores[1][y];
 				} else if (low5 == Float.parseFloat(string))
 				{
-					leagueWideStats[0][FIFTHLOWESTSCORE] = ListOfGameScores[0][y];
-					leagueWideStats[1][FIFTHLOWESTSCORE] = ListOfGameScores[1][y];
+					leagueWideStats[0][FIFTHLOWESTSCORE] = gameScores[0][y];
+					leagueWideStats[1][FIFTHLOWESTSCORE] = gameScores[1][y];
 				}
 			}
 		
+			data.setLeagueStats(leagueWideStats);
 			System.out.println("debug");
 			
 		} catch (Exception e)
@@ -665,18 +699,21 @@ public class TrackerRobot {
 		currentAwayGames = 0;
 	}
 
-	private static String[][] convertFloatArrayToString(float[][] finalTeamSpecificData, int teamCountInt, int finalMassagedDataSize) {
-		String[][] finalTeamSpecificDataAsStrings = new String[teamCountInt][finalMassagedDataSize];
+	private static void convertFloatArrayToString() {
+		int teamCount = data.getTeamCount();
+		int massagedDataSize = data.getMassagedDataSize();
+		float[][] finalTeamSpecificData = data.getTeamStatsAsFloats();
+		String[][] finalTeamSpecificDataAsStrings = new String[teamCount][massagedDataSize];
 		
-		for (int x = 0; x < teamCountInt; x++)
+		for (int x = 0; x < teamCount; x++)
 		{
-			for (int y = 0; y < finalMassagedDataSize; y++)
+			for (int y = 0; y < massagedDataSize; y++)
 			{
 				finalTeamSpecificDataAsStrings[x][y] = Float.toString(finalTeamSpecificData[x][y]);
 			}
 		}
-		
-		return finalTeamSpecificDataAsStrings;
+	
+		data.setTeamStatsAsStrings(finalTeamSpecificDataAsStrings);
 	}
 	
 	
@@ -731,9 +768,6 @@ public class TrackerRobot {
 	final static int TeamGameResultIndex = 5;
 	final static int TeamOpponentIndex = 6;
 	final static int TeamDivisionalGameIndex = 7;
-	
-	static int MassagedDataSizeBeforeTeamCountAdded = 30; //todo - likely to change
-	static int LEAGUEWIDESTATCOUNT = 15;
 
 	//STATS STATS STATS 
 	static String[][] ListOfGameScores;
