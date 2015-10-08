@@ -16,10 +16,6 @@ import jxl.*;
 public class TrackerRobot {
 	
 	static DataManager data;
-	
-	//constants and indices
-	static int DATASIZEBEFORETEAMCOUNT = 30;
-	static int LEAGUEWIDESTATCOUNT = 15;
 
 	public static void main(String[] args) {
 		try 
@@ -125,11 +121,16 @@ public class TrackerRobot {
 		float[][] teamStatsAsFloats = new float[teamCount][massagedDataSize];
 		String[][] oneTeam = new String[teamCount][massagedDataSize];
 		String[][] gameScores = new String[2][numGames];
-
-
+		String[][] leagueWideStats = new String[2][LEAGUEWIDESTATCOUNT];
+		int initialCloseGame = 1000;
+		int initialBlowout = 0;
+		leagueWideStats[0][CLOSESTGAME] = Integer.toString(initialCloseGame);
+		leagueWideStats[0][BIGGESTBLOWOUT] = Integer.toString(initialBlowout);
+		data.setLeagueStats(leagueWideStats);
 		int currentTeam = 0;
 		int currentWeek = 0;
 		int gameIndex = 0;
+
 		
 		float[][] finalTeamSpecificData = new float[teamCount][massagedDataSize]; //this will be the result of this function
 
@@ -144,16 +145,16 @@ public class TrackerRobot {
 					gameIndex++;
 					currentWeek++;
 				}
-				
-				assembleLeagueStats(currentTeam);
 				currentTeam++;
 				currentWeek = 0;
+				assembleLeagueStats(oneTeam, currentTeam);
 				clearTemporaryVariables();
 			}
-			data.setGameScores(gameScores); //FINALTEAMSPECIFICDATA IS CORRECT AS OF RIGHT HERE
+			
+			data.setGameScores(gameScores);
 			data.setTeamStatsAsFloats(finalTeamSpecificData);
+			
 			highestAndLowestScores();
-	
 			
 			convertFloatArrayToString();
 			System.out.println("debug");
@@ -259,6 +260,16 @@ public class TrackerRobot {
 			writer.newLine();
 			writer.write("5. " + leagueWideStats[0][FIFTHLOWESTSCORE] + "\t(" + leagueWideStats[1][FIFTHLOWESTSCORE] + ")");
 			writer.newLine();
+			writer.newLine();
+			writer.write("The Biggest Blowout");
+			writer.newLine();
+			String[] blowout = leagueWideStats[1][BIGGESTBLOWOUT].split(" ");
+			writer.write(blowout[0] + " beat " + blowout[1] + " by a whopping " + leagueWideStats[0][BIGGESTBLOWOUT] + " in week " + blowout[3]);
+			writer.newLine();
+			writer.write("The Closest Game");
+			writer.newLine();
+			String[] close = leagueWideStats[1][CLOSESTGAME].split(" ");
+			writer.write(close[0] + " beat " + close[1] + " by the narrow margin of " + leagueWideStats[0][CLOSESTGAME] + " in week " + close[3]);
 			
 		} catch (Exception e)
 		{
@@ -528,16 +539,65 @@ public class TrackerRobot {
 		
 	}
 
-	private static void assembleLeagueStats(int currentTeam) {
+	private static void assembleLeagueStats(String[][] oneTeam, int currentTeam) {
 
+		try
+		{
 		//every time this function gets called, tempData will contain the entire data of one team
+		String[][] allTeams = data.getRawData();
+		String[][] leagueWideStats = data.getLeagueStats();		
+		int numWeeks = data.getNumWeeks();
+		int currentWeek = 0;
+		float differential;
+		String player;
+		String opponent;
+		String result;
 		
+		for (int x = 0; x < numWeeks; x++)
+		{
+			differential = Float.parseFloat(oneTeam[currentWeek][TEAMPOINTSFORINDEX]) - Float.parseFloat(oneTeam[currentWeek][TEAMPOINTSAGAINSTINDEX]);
+			
+			
+			if (differential > Float.parseFloat(leagueWideStats[0][BIGGESTBLOWOUT]))
+			{
+				leagueWideStats[0][BIGGESTBLOWOUT] = Float.toString(differential);
+				
+				player = oneTeam[currentWeek][TEAMNAMEINDEX];
+				opponent = oneTeam[currentWeek][TEAMOPPONENTINDEX];
+				result = oneTeam[currentWeek][TEAMGAMERESULTINDEX];
+				
+				leagueWideStats[1][BIGGESTBLOWOUT] = player + " " + opponent + " " + result + " " + Integer.toString(currentWeek+1);
+			} 
+			else if ((differential < Float.parseFloat(leagueWideStats[0][CLOSESTGAME])) && differential > 0)
+			{
+				leagueWideStats[0][CLOSESTGAME] = Float.toString(differential);
+				
+				player = oneTeam[currentWeek][TEAMNAMEINDEX];
+				opponent = oneTeam[currentWeek][TEAMOPPONENTINDEX];
+				result = oneTeam[currentWeek][TEAMGAMERESULTINDEX];
+				
+				leagueWideStats[1][CLOSESTGAME] = player + " " + opponent + " " + result + " " + Integer.toString(currentWeek+1);
+			}			
+
+			data.setLeagueStats(leagueWideStats);
+			currentWeek++;
+		}
+		
+		System.out.println("debug");
+		
+		} catch (Exception e)
+		{
+			System.out.println("out of assembleLeagueStats");
+			e.printStackTrace();
+		}
+		
+	
 	}
 	
 	private static void highestAndLowestScores() {
 		try 
 		{
-			String[][] leagueWideStats = new String[2][LEAGUEWIDESTATCOUNT];
+			String[][] leagueWideStats = data.getLeagueStats();
 			String[][] gameScores = data.getGameScores();
 			float high1 = 0;
 			float high2 = 0;
@@ -713,6 +773,10 @@ public class TrackerRobot {
 	}
 	
 	
+	//team and league wide stat counts
+	final static int DATASIZEBEFORETEAMCOUNT = 30;
+	final static int LEAGUEWIDESTATCOUNT = 15;
+	
 	//individual team statistic array indices (for finalTeamSpecificStats arrays)
 	final static int WINS = 0;
 	final static int LOSSES = 1;
@@ -752,9 +816,13 @@ public class TrackerRobot {
 	final static int THIRDLOWESTSCORE = 7;
 	final static int FOURTHLOWESTSCORE = 8;
 	final static int FIFTHLOWESTSCORE = 9;
+	final static int BIGGESTBLOWOUT = 10;
+	final static int CLOSESTGAME = 11;
+	final static int BESTPOINTDIFFERENTIAL = 12;
+	final static int WORSTPOINTDIFFERENTIAL = 12;
+	
 	
 	//individual team statistic EXTRACTION array indices
-	final static int SINGLETEAMDATASIZE = 8;
 	final static int TEAMNAMEINDEX = 0;
 	final static int TEAMLOCATIONINDEX = 1;
 	final static int TEAMPOINTSFORINDEX = 2;
@@ -763,6 +831,7 @@ public class TrackerRobot {
 	final static int TEAMGAMERESULTINDEX = 5;
 	final static int TEAMOPPONENTINDEX = 6;
 	final static int TEAMDIVISIONALGAMEINDEX = 7;
+	final static int SINGLETEAMDATASIZE = 8;
 
 	
 	//temp containers for data massaging (single teams)

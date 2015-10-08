@@ -282,3 +282,8 @@ Bottom 5 Single Week Scores
 3. 73.1	(Conor)
 4. 74.2	(Adam)
 5. 87.9	(Rahul)
+
+The Biggest Blowout
+Vandan beat Adam by a whopping 62.0 in week 1
+The Closest Game
+David beat Alex by the narrow margin of 0.19999695 in week 2
