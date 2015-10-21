@@ -23,7 +23,7 @@ public class TrackerRobot {
 			//getting the data file from current directory
 			//this will be generalized when I build the UI. file will be selectable there
 			String userDir = System.getProperty("user.dir");
-			userDir = userDir.concat("/ACT_data.xls");
+			userDir = userDir.concat("/Dynasty_data.xls");
 			Workbook workbook = Workbook.getWorkbook(new File(userDir));	
 			Sheet sheet = workbook.getSheet(0); 
 			
@@ -675,7 +675,7 @@ public class TrackerRobot {
 			for (int y = 0; y < gameScores[0].length; y++)
 			{
 				String string = gameScores[0][y];
-				if (String.valueOf(high1).equals(string)) 
+				if (high1 == Float.parseFloat(string)) 
 				{
 					leagueWideStats[0][HIGHESTSCORE] = gameScores[0][y];
 					leagueWideStats[1][HIGHESTSCORE] = gameScores[1][y];

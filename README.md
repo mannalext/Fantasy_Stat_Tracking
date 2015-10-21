@@ -10,6 +10,7 @@ TODO:
 - Determine a "pretty" way to output the data to .txt
 	- Then, use a StringBuilder to make that string and print it
 - Inter-divisional stats need to be implemented (East / West win pct against each other)
+- highest/lowest scores BREAK when there are duplicates. easy to fix with a bool
 
 
 STRETCH GOALS:
@@ -22,6 +23,8 @@ STRETCH GOALS:
 
 
 --Thoughts as I build it--
+10/20/15
+added dynasty input file to the project. fixed some small bugs that were discovered as a result of the dynasty data
 
 10/5/15 second commit
 implemented top and bottom 5 league scoring, along with rudimentary printing. thinking that next will be all the regular league-wide stats that are easier to track. list these in the input file
