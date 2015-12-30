@@ -3,287 +3,287 @@ Wins: 6.0
 Losses: 7.0
 Home winning pct: 0.71428573
 Away winning pct: 0.16666667
-Divisional record: 0.5
-Non divisional record: 0.4
-Total points for: 1447.8002
-Total points against: 1367.7999
-Average points for: 111.36925
-Average points against: 105.21538
-Highest points for: 164.7
-Lowest points for: 70.9
-Highest points against: 159.9
-Lowest points against: 61.1
-Total margin of victory: 225.50002
-Total margin of defeat: 145.49998
-Average margin of victory: 37.583336
-Average margin of defeat: 20.785711
-Highest margin of victory: 62.300003
-Highest margin of defeat: 61.899994
-Lowest margin of victory: 14.200005
-Lowest margin of defeat: 0.19999695
-Total point differential: 80.00003
-Average home points: 111.700005
-Average away points: 110.98334
-
-Rahul
-Wins: 5.0
-Losses: 8.0
-Home winning pct: 0.5
-Away winning pct: 0.2857143
-Divisional record: 0.375
-Non divisional record: 0.4
-Total points for: 1455.9
-Total points against: 1421.1001
-Average points for: 111.99231
-Average points against: 109.31539
-Highest points for: 168.9
-Lowest points for: 58.2
-Highest points against: 132.3
-Lowest points against: 67.0
-Total margin of victory: 141.49997
-Total margin of defeat: 106.70001
-Average margin of victory: 28.299994
-Average margin of defeat: 13.337502
-Highest margin of victory: 47.899994
-Highest margin of defeat: 37.200005
-Lowest margin of victory: 7.7999954
-Lowest margin of defeat: -33.699997
-Total point differential: 34.799957
-Average home points: 131.90001
-Average away points: 94.92857
-
-David
-Wins: 7.0
-Losses: 6.0
-Home winning pct: 0.85714287
-Away winning pct: 0.16666667
-Divisional record: 0.375
-Non divisional record: 0.8
-Total points for: 1408.7999
-Total points against: 1295.9999
-Average points for: 108.369225
-Average points against: 99.6923
-Highest points for: 137.6
-Lowest points for: 61.1
-Highest points against: 122.8
-Lowest points against: 75.3
-Total margin of victory: 182.6
-Total margin of defeat: 69.8
-Average margin of victory: 26.085714
-Average margin of defeat: 11.633334
-Highest margin of victory: 42.600006
-Highest margin of defeat: 19.899994
-Lowest margin of victory: 0.19999695
-Lowest margin of defeat: 4.0
-Total point differential: 112.8
-Average home points: 117.77142
-Average away points: 97.399994
-
-Hannah
-Wins: 8.0
-Losses: 5.0
-Home winning pct: 0.5714286
-Away winning pct: 0.6666667
-Divisional record: 0.625
-Non divisional record: 0.6
-Total points for: 1599.5
-Total points against: 1410.4
-Average points for: 123.03846
-Average points against: 108.49231
-Highest points for: 159.9
-Lowest points for: 72.4
-Highest points against: 164.7
-Lowest points against: 76.3
-Total margin of victory: 292.2
-Total margin of defeat: 103.100006
-Average margin of victory: 36.525
-Average margin of defeat: 20.62
-Highest margin of victory: 61.899994
-Highest margin of defeat: 55.6
-Lowest margin of victory: 12.800003
-Lowest margin of defeat: 1.4000015
-Total point differential: 189.1
-Average home points: 119.67143
-Average away points: 126.966675
-
-Conor
-Wins: 6.0
-Losses: 7.0
-Home winning pct: 0.5714286
-Away winning pct: 0.33333334
-Divisional record: 0.625
-Non divisional record: 0.2
-Total points for: 1386.8999
-Total points against: 1437.0001
-Average points for: 106.68461
-Average points against: 110.53847
-Highest points for: 136.2
-Lowest points for: 73.1
-Highest points against: 146.6
-Lowest points against: 83.3
-Total margin of victory: 95.799995
-Total margin of defeat: 145.90001
-Average margin of victory: 15.966666
-Average margin of defeat: 20.84286
-Highest margin of victory: 30.0
-Highest margin of defeat: 49.300003
-Lowest margin of victory: 4.300003
-Lowest margin of defeat: 3.199997
-Total point differential: -50.100014
-Average home points: 111.88572
-Average away points: 100.61666
-
-Bryan
-Wins: 5.0
-Losses: 8.0
-Home winning pct: 0.42857143
-Away winning pct: 0.33333334
-Divisional record: 0.375
-Non divisional record: 0.4
-Total points for: 1303.8
-Total points against: 1560.2001
-Average points for: 100.29231
-Average points against: 120.01539
-Highest points for: 122.8
-Lowest points for: 76.3
-Highest points against: 157.8
-Lowest points against: 70.9
-Total margin of victory: 55.899994
-Total margin of defeat: 312.3
-Average margin of victory: 11.179998
-Average margin of defeat: 39.0375
-Highest margin of victory: 17.099998
-Highest margin of defeat: 62.300003
-Lowest margin of victory: 4.0
-Lowest margin of defeat: 11.599998
-Total point differential: -256.4
-Average home points: 103.94286
-Average away points: 96.03333
-
-Greg
-Wins: 6.0
-Losses: 7.0
-Home winning pct: 0.6666667
-Away winning pct: 0.2857143
-Divisional record: 0.5
-Non divisional record: 0.4
-Total points for: 1395.2999
-Total points against: 1477.8999
-Average points for: 107.330765
-Average points against: 113.68461
-Highest points for: 146.6
-Lowest points for: 84.6
-Highest points against: 168.9
-Lowest points against: 68.1
-Total margin of victory: 102.700005
-Total margin of defeat: 185.29999
-Average margin of victory: 17.116667
-Average margin of defeat: 26.471426
-Highest margin of victory: 31.400002
-Highest margin of defeat: 40.799988
-Lowest margin of victory: 2.699997
-Lowest margin of defeat: 12.900002
-Total point differential: -82.59998
-Average home points: 110.91668
-Average away points: 104.25715
-
-Vandan
-Wins: 7.0
-Losses: 6.0
-Home winning pct: 0.5
-Away winning pct: 0.5714286
-Divisional record: 0.375
-Non divisional record: 0.8
-Total points for: 1400.3
-Total points against: 1372.1998
-Average points for: 107.715385
-Average points against: 105.55383
-Highest points for: 136.2
-Lowest points for: 79.4
-Highest points against: 137.7
-Lowest points against: 74.2
-Total margin of victory: 154.6
-Total margin of defeat: 126.49999
-Average margin of victory: 22.085714
-Average margin of defeat: 21.083332
-Highest margin of victory: 62.0
-Highest margin of defeat: 51.700005
-Lowest margin of victory: 5.199997
-Lowest margin of defeat: 2.699997
-Total point differential: 28.100014
-Average home points: 108.68333
-Average away points: 106.88572
+Divisional record: 0.6
+Non divisional record: 0.375
+Total points for: 1749.6001
+Total points against: 1821.5999
+Average points for: 134.58463
+Average points against: 140.12306
+Highest points for: 170.4
+Lowest points for: 108.4
+Highest points against: 202.0
+Lowest points against: 92.5
+Total margin of victory: 143.79999
+Total margin of defeat: 215.8
+Average margin of victory: 23.966665
+Average margin of defeat: 30.828571
+Highest margin of victory: 63.100006
+Highest margin of defeat: 93.6
+Lowest margin of victory: 4.7999954
+Lowest margin of defeat: 7.199997
+Total point differential: -72.000015
+Average home points: 137.59999
+Average away points: 131.06667
 
 Matt
 Wins: 9.0
 Losses: 4.0
-Home winning pct: 0.6666667
-Away winning pct: 0.71428573
-Divisional record: 0.75
-Non divisional record: 0.6
-Total points for: 1379.7999
-Total points against: 1314.3
-Average points for: 106.13846
-Average points against: 101.100006
-Highest points for: 131.1
-Lowest points for: 67.0
-Highest points against: 137.8
-Lowest points against: 79.4
-Total margin of victory: 169.29999
-Total margin of defeat: 103.80001
-Average margin of victory: 18.81111
-Average margin of defeat: 25.950003
-Highest margin of victory: 51.700005
-Highest margin of defeat: 53.100006
-Lowest margin of victory: 1.199997
-Lowest margin of defeat: 3.199997
-Total point differential: 65.49998
-Average home points: 101.80001
-Average away points: 109.85714
+Home winning pct: 0.85714287
+Away winning pct: 0.5
+Divisional record: 0.8
+Non divisional record: 0.625
+Total points for: 2130.1
+Total points against: 1709.6001
+Average points for: 163.85385
+Average points against: 131.5077
+Highest points for: 201.9
+Lowest points for: 122.0
+Highest points against: 184.5
+Lowest points against: 69.3
+Total margin of victory: 460.8
+Total margin of defeat: 40.300003
+Average margin of victory: 51.199997
+Average margin of defeat: 10.075001
+Highest margin of victory: 112.2
+Highest margin of defeat: 20.0
+Lowest margin of victory: 12.599991
+Lowest margin of defeat: 1.5
+Total point differential: 420.5
+Average home points: 161.14285
+Average away points: 167.01668
 
-Adam
+Austin
+Wins: 5.0
+Losses: 8.0
+Home winning pct: 0.5
+Away winning pct: 0.2857143
+Divisional record: 0.33333334
+Non divisional record: 0.42857143
+Total points for: 1720.5
+Total points against: 1930.2
+Average points for: 132.34616
+Average points against: 148.47691
+Highest points for: 222.0
+Lowest points for: 99.4
+Highest points against: 208.3
+Lowest points against: 84.1
+Total margin of victory: 128.6
+Total margin of defeat: 338.3
+Average margin of victory: 25.720001
+Average margin of defeat: 42.2875
+Highest margin of victory: 52.500008
+Highest margin of defeat: 67.7
+Lowest margin of victory: 3.0
+Lowest margin of defeat: 8.300003
+Total point differential: -209.69998
+Average home points: 131.74998
+Average away points: 132.85715
+
+Kevin
+Wins: 8.0
+Losses: 5.0
+Home winning pct: 0.6666667
+Away winning pct: 0.5714286
+Divisional record: 0.6666667
+Non divisional record: 0.5714286
+Total points for: 1789.4999
+Total points against: 1795.7
+Average points for: 137.65384
+Average points against: 138.13077
+Highest points for: 214.1
+Lowest points for: 100.5
+Highest points against: 182.1
+Lowest points against: 96.9
+Total margin of victory: 196.20003
+Total margin of defeat: 202.40002
+Average margin of victory: 24.525003
+Average margin of defeat: 40.480003
+Highest margin of victory: 68.600006
+Highest margin of defeat: 73.700005
+Lowest margin of victory: 5.100006
+Lowest margin of defeat: 9.400002
+Total point differential: -6.199997
+Average home points: 135.11667
+Average away points: 139.82858
+
+Joe
 Wins: 6.0
 Losses: 7.0
+Home winning pct: 0.5
+Away winning pct: 0.42857143
+Divisional record: 0.16666667
+Non divisional record: 0.71428573
+Total points for: 1794.7
+Total points against: 1691.0001
+Average points for: 138.05385
+Average points against: 130.07693
+Highest points for: 182.6
+Lowest points for: 96.9
+Highest points against: 166.2
+Lowest points against: 104.8
+Total margin of victory: 198.30002
+Total margin of defeat: 94.599976
+Average margin of victory: 33.050003
+Average margin of defeat: 13.514282
+Highest margin of victory: 62.399994
+Highest margin of defeat: 24.599998
+Lowest margin of victory: 8.5
+Lowest margin of defeat: 3.0
+Total point differential: 103.70004
+Average home points: 135.88335
+Average away points: 139.91428
+
+Frankie
+Wins: 9.0
+Losses: 4.0
 Home winning pct: 0.6666667
-Away winning pct: 0.2857143
+Away winning pct: 0.71428573
+Divisional record: 0.8
+Non divisional record: 0.625
+Total points for: 1767.4
+Total points against: 1643.5999
+Average points for: 135.95384
+Average points against: 126.430756
+Highest points for: 166.5
+Lowest points for: 104.8
+Highest points against: 180.1
+Lowest points against: 95.1
+Total margin of victory: 260.2
+Total margin of defeat: 136.40001
+Average margin of victory: 28.911112
+Average margin of defeat: 34.100002
+Highest margin of victory: 60.300003
+Highest margin of defeat: 62.399994
+Lowest margin of victory: 9.0
+Lowest margin of defeat: 15.600006
+Total point differential: 123.8
+Average home points: 133.58333
+Average away points: 137.9857
+
+Conor
+Wins: 8.0
+Losses: 5.0
+Home winning pct: 0.85714287
+Away winning pct: 0.33333334
+Divisional record: 0.85714287
+Non divisional record: 0.33333334
+Total points for: 1855.4
+Total points against: 1835.0
+Average points for: 142.72308
+Average points against: 141.15384
+Highest points for: 165.6
+Lowest points for: 113.0
+Highest points against: 170.4
+Lowest points against: 100.0
+Total margin of victory: 142.30002
+Total margin of defeat: 121.89999
+Average margin of victory: 17.787502
+Average margin of defeat: 24.379997
+Highest margin of victory: 40.6
+Highest margin of defeat: 47.000008
+Lowest margin of victory: 1.5
+Lowest margin of defeat: 13.199997
+Total point differential: 20.400032
+Average home points: 145.08571
+Average away points: 139.96667
+
+Adam
+Wins: 7.0
+Losses: 6.0
+Home winning pct: 0.85714287
+Away winning pct: 0.16666667
 Divisional record: 0.5
-Non divisional record: 0.4
-Total points for: 1383.4
-Total points against: 1437.2
-Average points for: 106.41539
-Average points against: 110.55384
-Highest points for: 143.5
-Lowest points for: 68.1
-Highest points against: 153.5
-Lowest points against: 58.2
-Total margin of victory: 163.9
-Total margin of defeat: 217.69998
-Average margin of victory: 27.316666
-Average margin of defeat: 31.099997
-Highest margin of victory: 40.5
-Highest margin of defeat: 62.0
-Lowest margin of victory: 3.199997
-Lowest margin of defeat: 16.400002
-Total point differential: -53.799988
-Average home points: 99.38333
-Average away points: 112.442856
+Non divisional record: 0.5714286
+Total points for: 1777.2999
+Total points against: 1866.7001
+Average points for: 136.71538
+Average points against: 143.59232
+Highest points for: 184.5
+Lowest points for: 93.2
+Highest points against: 222.0
+Lowest points against: 97.0
+Total margin of victory: 103.39999
+Total margin of defeat: 192.79999
+Average margin of victory: 14.771426
+Average margin of defeat: 32.13333
+Highest margin of victory: 34.699997
+Highest margin of defeat: 44.800003
+Lowest margin of victory: -8.5
+Lowest margin of defeat: 15.799988
+Total point differential: -89.4
+Average home points: 148.48572
+Average away points: 122.98334
+
+Jesse
+Wins: 5.0
+Losses: 8.0
+Home winning pct: 0.33333334
+Away winning pct: 0.42857143
+Divisional record: 0.0
+Non divisional record: 0.625
+Total points for: 1815.1998
+Total points against: 1910.7002
+Average points for: 139.63075
+Average points against: 146.97694
+Highest points for: 208.3
+Lowest points for: 95.1
+Highest points against: 214.1
+Lowest points against: 108.4
+Total margin of victory: 287.2
+Total margin of defeat: 382.7
+Average margin of victory: 57.440002
+Average margin of defeat: 47.8375
+Highest margin of victory: 93.6
+Highest margin of defeat: 98.799995
+Lowest margin of victory: 10.099998
+Lowest margin of defeat: 9.099998
+Total point differential: -95.5
+Average home points: 139.75
+Average away points: 139.52856
+
+Hannah
+Wins: 3.0
+Losses: 10.0
+Home winning pct: 0.42857143
+Away winning pct: 0.0
+Divisional record: 0.33333334
+Non divisional record: 0.14285715
+Total points for: 1679.4001
+Total points against: 1769.7
+Average points for: 129.18463
+Average points against: 136.13077
+Highest points for: 183.8
+Lowest points for: 69.3
+Highest points against: 181.5
+Lowest points against: 93.2
+Total margin of victory: 123.899994
+Total margin of defeat: 214.2
+Average margin of victory: 41.3
+Average margin of defeat: 21.42
+Highest margin of victory: 66.2
+Highest margin of defeat: 112.2
+Lowest margin of victory: 16.899994
+Lowest margin of defeat: -52.699997
+Total point differential: -90.3
+Average home points: 150.04286
+Average away points: 104.850006
 
 BEGINNING LEAGUE-WIDE STATS
 Top 5 Single Week Scores
-1. 168.9	(Rahul)
-2. 164.7	(Alex)
-3. 159.9	(Hannah)
-4. 157.8	(Alex)
-5. 154.4	(Hannah)
+1. 222	(Austin)
+2. 214.1	(Kevin)
+3. 208.3	(Jesse)
+4. 202	(Jesse)
+5. 201.9	(Matt)
 
 Bottom 5 Single Week Scores
-1. 58.2	(Rahul)
-2. 61.1	(David)
-3. 67	(Matt)
-4. 68.1	(Adam)
-5. 70.9	(Alex)
+1. 69.3	(Hannah)
+2. 84.1	(Hannah)
+3. 92.5	(Hannah)
+4. 93.2	(Adam)
+5. 95.1	(Jesse)
 
 The Biggest Blowout
-Alex beat Bryan by a whopping 62.300003 in week 13
+Matt beat Hannah by a whopping 112.2 in week 12
 The Closest Game
-David beat Alex by the narrow margin of 0.19999695 in week 2
+Conor beat Matt by the narrow margin of 1.5 in week 11
