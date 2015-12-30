@@ -23,7 +23,7 @@ public class TrackerRobot {
 			//getting the data file from current directory
 			//this will be generalized when I build the UI. file will be selectable there
 			String userDir = System.getProperty("user.dir");
-			userDir = userDir.concat("/Dynasty_data.xls");
+			userDir = userDir.concat("/ACT_data.xls");
 			Workbook workbook = Workbook.getWorkbook(new File(userDir));	
 			Sheet sheet = workbook.getSheet(0); 
 			

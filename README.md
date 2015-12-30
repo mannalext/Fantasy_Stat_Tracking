@@ -11,6 +11,7 @@ TODO:
 	- Then, use a StringBuilder to make that string and print it
 - Inter-divisional stats need to be implemented (East / West win pct against each other)
 - highest/lowest scores BREAK when there are duplicates. easy to fix with a bool
+- lowest winning score, highest losing score
 
 
 STRETCH GOALS:
@@ -23,6 +24,11 @@ STRETCH GOALS:
 
 
 --Thoughts as I build it--
+
+12/30/15
+Updating stat sheets to reflect the entire regular season. Getting thoughts in order for offseason additions to the app. Chief addition to the project plan is the
+ability to track highest losing score and lowest winning score
+
 10/20/15
 added dynasty input file to the project. fixed some small bugs that were discovered as a result of the dynasty data
 
