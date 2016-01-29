@@ -105,6 +105,7 @@ public class TrackerRobot {
 				row++;
 				col = 2;
 				pos = 0;
+				//debug
 			}
 			
 		} catch (Exception e)
