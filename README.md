@@ -62,6 +62,78 @@ note: this change was made with an unclear head. reevaluate when the time comes
 
 
 
+-----BEGIN NOTES FOR MASSIVE REFACTOR------
+
+1. completely changing how the spreadsheet is organized
+
+1st sheet is metadata. num teams, num weeks, num season?
+remaining n sheets one per team
+EACH TEAM GETS ITS OWN SHEET FOR 100% OF ITS DATA
+
+
+2. create 2 new data structures, splitting DataManager up
+     - one for per team stats
+     - one for league wide stats
+
+rather than building the stats in one giant mess, build them per team
+this data structure contains 100% of the stats relating to that team
+give it accessor functions to allow easy calculating of league-wide stats
+
+*important*
+each time a week's worth of data is brought into the data structure, 100% of the stats are calculated and stored. we calculate n times where n is the number of weeks, rather than 1 time with the full dataset
+
+
+extractData() becomes a new function which extracts raw data FOR ONE TEAM, and stores it neatly into some kind of bridge data structure. 
+
+massageData() takes that bridge data structure (again, holding a single team's raw data) and runs stat calculations on it, storing those stats into the new data structure from step 2
+
+
+4. printData() retains its old functionality. requires a cleanup refactor though
+
+
+brainstorming for what these new data structures need to look like
+
+team data
+- this new data structure has its own print function, removing TrackerRobot's print function
+- has one entry point, "trackWeek()" which takes a week's worth of data for that one team as an argument (raw spreadsheet data), and massages it into the team specific and league wide stats I have right now, and whatever others I add
+
+
+league data
+- has its own print function as well
+- all of the team data structures have access to this one because they will need to make calls to it during their trackWeek() work
+
+
+
+anatomy of a call to main()
+
+1. get metadata from sheet 1
+2. initialize n team data structures into an array, where n is the number of teams found in the metadata
+3. initialize league wide data structure
+4. double for loop calling team[n].trackWeek(x)
+     -trackWeek will look at team n's week x. it will extract that raw data. it         will operate on it, updating the stats for that one team and any relevant stats for the league as a whole.
+
+
+we HAVE to calculate stats each time we pull a week. do NOT do it any other way. calculate each time a week is extracted from the spreadsheet
+
+
+-----END NOTES FOR MASSIVE REFACTOR-------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -57,7 +57,7 @@ public class DataManager {
 		this.teamNames = value;
 	}
 	
-	private int numGames;
+/*	private int numGames;
 	public int getNumGames()
 	{
 		return this.numGames;
@@ -65,7 +65,7 @@ public class DataManager {
 	public void setNumGames(int value)
 	{
 		this.numGames = value;
-	}
+	}*/
 	
 	private int massagedDataSize;
 	public int getMassagedDataSize()
