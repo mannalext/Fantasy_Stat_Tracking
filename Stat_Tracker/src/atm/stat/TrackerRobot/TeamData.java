@@ -2,10 +2,14 @@ package atm.stat.TrackerRobot;
 
 public class TeamData {
 	
-	private static int pointsFor, totalPointsFor, avgPointsFor, highPointsFor, lowPointsFor, pointsAgainst,
-	totalPointsAgainst, avgPointsAgainst, highPointsAgainst, lowPointsAgainst, margin, totalMarginVictory, highMarginVictory, avgMarginVictory,
-	lowMarginVictory, totalMarginDefeat, highMarginDefeat, avgMarginDefeat, lowMarginDefeat, pointDifferential, totalGames, wins, losses,
-	homeWins, awayWins, divWins, nonDivWins, homeGames, awayGames, divGames, nonDivGames;
+	private static int pointsFor, totalPointsFor, avgPointsFor, highPointsFor, 
+	lowPointsFor, pointsAgainst, totalPointsAgainst, avgPointsAgainst,
+	highPointsAgainst, lowPointsAgainst, totalHomePoints, avgHomePoints, totalAwayPoints, avgAwayPoints,
+	margin, totalMarginVictory, highMarginVictory, avgMarginVictory,
+	lowMarginVictory, totalMarginDefeat, highMarginDefeat, avgMarginDefeat, 
+	lowMarginDefeat, pointDifferential, totalGames, wins, losses,
+	homeWins, awayWins, divWins, nonDivWins, homeGames, awayGames, divGames, 
+	nonDivGames;
 	
 	private static String name, division, opponent, location, result;
 	/*make a 2 dimensional array here for matchup history
@@ -142,6 +146,48 @@ public class TeamData {
 		}
 	}
 	
+	public int getTotalHomePoints()
+	{
+		return totalHomePoints;
+	}
+	private void setTotalHomePoints()
+	{
+		if (location == "home")
+		{
+			totalHomePoints += pointsFor;
+		}
+	}
+	
+	public int getAvgHomePoints() 
+	{
+		return avgHomePoints;
+	}
+	private void setAvgHomePoints()
+	{
+		avgHomePoints = totalHomePoints / homeGames;
+	}
+	
+	public int getTotalAwayPoints()
+	{
+		return totalAwayPoints;
+	}
+	private void setTotalAwayPoints()
+	{
+		if (location == "away")
+		{
+			totalAwayPoints += pointsFor;
+		}
+	}
+	
+	public int getAvgAwayPoints()
+	{
+		return avgAwayPoints;
+	}
+	private void setAvgAwayPoints()
+	{
+		avgAwayPoints = totalAwayPoints / awayGames;
+	}
+	
 	//when deciding whether to get margin victory or defeat, do a check on the return value of getMargin to see if it's positive or negative
 	public int getMargin()
 	{
@@ -153,8 +199,17 @@ public class TeamData {
 	}
 	
 	public int getTotalMarginVictory()
+	{
+		return totalMarginVictory;
+	}
 	
 	private void setTotalMarginVictory()
+	{
+		if (margin > 0) 
+		{
+			totalMarginVictory += margin;
+		}
+	}
 	
 	public int getHighMarginVictory()
 	{
@@ -162,46 +217,93 @@ public class TeamData {
 	}
 	private void setHighMarginVictory()
 	{
-		if (margin > highMarginVictory)
+		if ((margin > highMarginVictory) && (margin > 0))
 		{
 			highMarginVictory = margin;
 		}
 	}
 	
 	public int getLowMarginVictory()
+	{
+		return lowMarginVictory;
+	}
 	
 	private void setLowMarginVictory()
-	
+	{
+		if ((margin < lowMarginVictory) && (margin > 0))
+		{
+			lowMarginVictory = margin;
+		}
+	}
 	
 	public int getAvgMarginVictory()
+	{
+		return avgMarginVictory;
+	}
 	
 	private void setAvgMarginVictory()
-	
+	{
+		avgMarginVictory = totalMarginVictory / wins;
+	}
 	
 	public int getTotalMarginDefeat()
+	{
+		return totalMarginDefeat;
+	}
 	
 	private void setTotalMarginDefeat()
-	
+	{
+		if (margin < 0)
+		{
+			totalMarginDefeat += margin;
+		}
+	}
 	
 	public int getHighMarginDefeat()
+	{
+		return highMarginDefeat;
+	}
 	
 	private void setHighMarginDefeat()
-	
+	{
+		if ((margin < highMarginDefeat) && margin < 0)
+		{
+			highMarginDefeat = margin;
+		}
+	}
 	
 	public int getLowMarginDefeat()
+	{
+		return lowMarginDefeat;
+	}
 	
 	private void setLowMarginDefeat()
-	
+	{
+		if (margin < 0 && (margin > lowMarginDefeat))
+		{
+			lowMarginDefeat = margin;
+		}
+	}
 	
 	public int getAvgMarginDefeat()
+	{
+		return avgMarginDefeat;
+	}
 	
-	private void setAvgMarginDefat()
-	
-	
+	private void setAvgMarginDefeat()
+	{
+		avgMarginDefeat = totalMarginDefeat / losses;
+	}
+		
 	public int getPointDifferential()
+	{
+		return pointDifferential;
+	}
 	
 	private void setPointDifferential()
-	
+	{
+		pointDifferential += margin;
+	}
 	
 	public String getResult()
 	{
