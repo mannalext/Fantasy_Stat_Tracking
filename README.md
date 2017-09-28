@@ -2,6 +2,10 @@
 
 This project is currently under active development. 
 
+UPDATE AS OF SEPTEMBER 2017:
+The next step for this project is to make a new branch and restart development.
+It’s way too messy to be built upon. It needs a total refactor.
+
 TODO:
 - League-Wide stat tracking
 - included in league-wide, but deserves a callout: matchup tracking
